@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Equipment } from '../types';
 import { Plus, Search, Filter, Edit, Trash2, Eye, Package } from 'lucide-react';
 import AddEquipmentModal from './AddEquipmentModal';
+import ShowEquipmentModal from './ShowEquipmentModal';
 
 interface EquipmentManagementProps {
   equipments: Equipment[];
@@ -24,7 +25,9 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
   const [statusFilter, setStatusFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showEquipmentModal, setShowEquipmentModal] = useState(false);
   const [editingEquipment, setEditingEquipment] = useState<Equipment | null>(null);
+  const [showEquipment, setShowEquipment] = useState<Equipment | null>(null);
 
   const filteredEquipments = equipments.filter((equipment) => {
     const matchesSearch = equipment.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -66,10 +69,17 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
     setEditingEquipment(equipment);
     setShowAddModal(true);
   };
-
+  const handleShow = (equipment: Equipment) => {
+    setShowEquipment(equipment);
+    setShowEquipmentModal(true);
+  };
   const handleModalClose = () => {
     setShowAddModal(false);
     setEditingEquipment(null);
+  };
+  const handleShowClose = () => {
+    setShowEquipment(null);
+    setShowEquipmentModal(false);
   };
 
   const handleModalSubmit = (equipment: Equipment) => {
@@ -225,7 +235,7 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
                     <td className="px-6 py-4 text-sm font-medium text-gray-900">{formatCurrency(equipment.cost)}</td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                        <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors"  onClick={() => handleShow(equipment)}>
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
@@ -271,6 +281,13 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
             onClose={handleModalClose}
             onSubmit={handleModalSubmit}
             equipment={editingEquipment}
+          />
+        )}
+        {showEquipment && (
+          <ShowEquipmentModal
+            isOpen={showEquipmentModal}
+            onClose={handleShowClose}
+            equipment={showEquipment}
           />
         )}
       </div>

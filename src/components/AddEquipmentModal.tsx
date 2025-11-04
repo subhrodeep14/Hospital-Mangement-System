@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Equipment } from '../types';
-import { X, Calendar } from 'lucide-react';
+import { X,  } from 'lucide-react';
 
 interface AddEquipmentModalProps {
   isOpen: boolean;
