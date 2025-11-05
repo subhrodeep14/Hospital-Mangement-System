@@ -95,12 +95,12 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Open': return 'bg-blue-100 text-blue-700';
-      case 'In Progress': return 'bg-purple-100 text-purple-700';
-      case 'Pending': return 'bg-yellow-100 text-yellow-700';
-      case 'Resolved': return 'bg-green-100 text-green-700';
-      case 'Closed': return 'bg-gray-100 text-gray-700';
-      default: return 'bg-gray-100 text-gray-700';
+      case 'Open': return ' text-blue-700';
+      case 'In Progress': return ' text-purple-700';
+      case 'Pending': return ' text-yellow-700';
+      case 'Resolved': return ' text-green-700';
+      case 'Closed': return ' text-gray-700';
+      default: return ' text-gray-700';
     }
   };
 
@@ -128,7 +128,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8 bg-gray-50 min-h-screen ml-[250px] scroll">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -288,7 +288,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+                      <span className="px-2 py-1 flex flex-col justify-center items-center text-blue-700 rounded-full text-xs font-medium">
                         {ticket.category}
                       </span>
                     </td>
@@ -329,16 +329,16 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
                         >
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button
+                        {/* <button
                           className="p-2 text-gray-400 hover:text-yellow-600 transition-colors"
                           title="Edit Ticket"
                         >
                           <Edit className="w-4 h-4" />
-                        </button>
-                        <div className="flex items-center gap-1 text-gray-400">
+                        </button> */}
+                        {/* <div className="flex items-center gap-1 text-gray-400">
                           <MessageSquare className="w-4 h-4" />
                           <span className="text-xs">{ticket.comments.length}</span>
-                        </div>
+                        </div> */}
                       </div>
                     </td>
                   </tr>

@@ -2,7 +2,7 @@ import { Equipment, Hospital } from '../types';
 import { Purchase, Ticket } from '../types';
 
 export const hospitalInfo: Hospital = {
-  name: 'Neotia Getwel Multispecialty Hospital',
+  name: 'Neotia Getwel Multi Speciality Hospital',
   address: '47/1A, Mahatma Gandhi Road, Siliguri, West Bengal 734001',
   phone: '+91-353-2545555',
   email: 'info@neotiahospital.com',
@@ -199,7 +199,7 @@ export const mockTickets: Ticket[] = [
         ticketId: '1',
         author: 'Dr. Priya Sharma',
         content: 'I have contacted Siemens support. They will send a technician tomorrow.',
-        createdAt: '2024-12-15T14:20:00Z',
+        createdAt: '2025-10-15T14:20:00Z',
         isInternal: false
       }
     ]
@@ -249,7 +249,7 @@ export const mockTickets: Ticket[] = [
         ticketId: '4',
         author: 'IT Team Lead',
         content: 'We are evaluating different barcode scanning solutions. Will provide an update by end of week.',
-        createdAt: '2024-12-14T09:30:00Z',
+        createdAt: '2025-09-14T09:30:00Z',
         isInternal: true
       }
     ]
@@ -263,9 +263,9 @@ export const mockTickets: Ticket[] = [
     status: 'Resolved',
     assignedTo: 'Biomedical Engineer',
     createdBy: 'Radiology Technician',
-    createdAt: '2025-12-10T08:00:00Z',
-    updatedAt: '2025-10-12T17:30:00Z',
-    resolvedAt: '2024-11-12T17:30:00Z',
+    createdAt: '2025-10-10T08:00:00Z',
+    updatedAt: '2025-10-10T17:30:00Z',
+    resolvedAt: '2025-11-12T17:30:00Z',
     department: 'Radiology Department',
     // equipmentId: '3',
     comments: [
@@ -274,7 +274,7 @@ export const mockTickets: Ticket[] = [
         ticketId: '5',
         author: 'Biomedical Engineer',
         content: 'Calibration completed successfully. Equipment is ready for use.',
-        createdAt: '2024-12-12T17:30:00Z',
+        createdAt: '2025-09-12T17:30:00Z',
         isInternal: false
       }
     ]

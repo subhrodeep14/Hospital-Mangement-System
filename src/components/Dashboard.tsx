@@ -75,11 +75,11 @@ const Dashboard: React.FC<DashboardProps> = ({ hospital, equipments, onDepartmen
     ).length;
   };
 
-  const handleDepartmentClick = (department: string) => {
-    onDepartmentClick(department);
-  };
+  // const handleDepartmentClick = (department: string) => {
+  //   onDepartmentClick(department);
+  // };
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8 bg-gray-50 min-h-screen ml-[250px] scroll">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Hospital Dashboard</h1>
@@ -166,7 +166,7 @@ const Dashboard: React.FC<DashboardProps> = ({ hospital, equipments, onDepartmen
               {hospital.departments.map((department, index) => (
                 <button
                   key={index}
-                  onClick={() => handleDepartmentClick(department)}
+                  // onClick={() => handleDepartmentClick(department)}
                   className="p-3 bg-blue-50 hover:bg-blue-100 rounded-lg text-center transition-all duration-200 hover:shadow-md transform hover:scale-105 group"
                 >
                   <p className="text-sm font-medium text-blue-800 group-hover:text-blue-900">{department}</p>

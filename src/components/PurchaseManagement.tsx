@@ -68,7 +68,7 @@ const PurchaseManagement: React.FC<PurchaseManagementProps> = ({
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8 bg-gray-50 min-h-screen scroll ml-[250px]">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>

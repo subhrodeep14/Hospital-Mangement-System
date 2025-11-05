@@ -245,8 +245,10 @@ function App() {
   const departmentFilter = searchParams.get("dept") ?? "";
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen  bg-gray-100">
       {/* Sidebar shows only when authed */}
+      <div className="fixed left-0 top-0 h-full w-[300px] overflow-y-auto">
+      
       {isAuthenticated && (
         <Sidebar
           // Use onClick -> navigate() instead of setActiveSection
@@ -258,8 +260,8 @@ function App() {
           onLogout={handleLogout}
         />
       )}
-
-      <div className="flex-1">
+      </div>
+      <div className={`flex-1`}>
         <Routes>
           {/* Public route: login */}
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />

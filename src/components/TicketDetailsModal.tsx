@@ -78,7 +78,7 @@ const TicketDetailsModal: React.FC<TicketDetailsModalProps> = ({
     }
   };
 
-  const relatedEquipment = equipments.find(eq => eq.id === ticket.equipmentId);
+  const relatedEquipment = equipments.find(eq => eq.id === ticket.id);
 
   const handleAddComment = () => {
     if (!newComment.trim()) return;

@@ -92,7 +92,7 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8 bg-gray-50 min-h-screen ml-[250px] scroll">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -202,7 +202,7 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
                 <tr>
                   <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Equipment</th>
                   <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Department</th>
                   <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Status</th>
                   <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Next Maintenance</th>
                   <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Cost</th>
