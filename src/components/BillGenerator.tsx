@@ -140,14 +140,14 @@ const BillGenerator: React.FC<BillGeneratorProps> = ({
   if (!isOpen) return null;
 
   const subtotal = purchase.totalAmount;
-  const taxRate = 0.18; // 18% GST
+  const taxRate = purchase.taxRate || 0.05; // 5% GST
   const taxAmount = subtotal * taxRate;
   const grandTotal = subtotal + taxAmount;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-6 border-b no-print">
+      <div className="bg-white max-w-4xl w-full max-h-[90vh] overflow-y-auto ">
+        <div className="flex items-center justify-between p-6 border-b no-print  ">
           <h2 className="text-2xl font-bold text-gray-900">Bill Generator</h2>
           <div className="flex items-center gap-2">
             <button
@@ -175,7 +175,7 @@ const BillGenerator: React.FC<BillGeneratorProps> = ({
 
         <div ref={billRef} className="p-8 bill-container">
           {/* Header */}
-          <div className="header text-center mb-8">
+          <div className="header text-center mb-8 ">
             <h1 className="hospital-name text-3xl font-bold text-blue-600 mb-2">
               {hospitalInfo.name}
             </h1>
@@ -258,7 +258,7 @@ const BillGenerator: React.FC<BillGeneratorProps> = ({
                 <span>{formatCurrency(subtotal)}</span>
               </div>
               <div className="total-row flex justify-between py-2">
-                <span>GST (18%):</span>
+                <span>GST ({purchase.taxRate * 100}%):</span>
                 <span>{formatCurrency(taxAmount)}</span>
               </div>
               <div className="grand-total total-row flex justify-between py-3 text-xl font-bold border-t-2 border-gray-800">

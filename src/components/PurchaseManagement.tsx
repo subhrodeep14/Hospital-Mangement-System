@@ -43,6 +43,7 @@ const PurchaseManagement: React.FC<PurchaseManagementProps> = ({
     }).format(amount);
   };
 
+  
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-IN');
   };
@@ -246,12 +247,13 @@ const PurchaseManagement: React.FC<PurchaseManagementProps> = ({
                         >
                           <FileText className="w-4 h-4" />
                         </button>
-                        <button
+                        {/* <button
                           className="p-2 text-gray-400 hover:text-purple-600 transition-colors"
                           title="Download"
+                          onClick={()=>handleDownload(purchase)}
                         >
                           <Download className="w-4 h-4" />
-                        </button>
+                        </button> */}
                       </div>
                     </td>
                   </tr>

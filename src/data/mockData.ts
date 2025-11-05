@@ -19,7 +19,13 @@ export const hospitalInfo: Hospital = {
     'Pharmacy',
     'Physiotherapy',
     'Dialysis Unit',
-    'Blood Bank'
+    'Blood Bank',
+    'Gynecology',
+    'Pediatrics',
+    'Neurology',
+    'Orthopedics',
+    'ENT',
+    'Dermatology'
   ]
 };
 
@@ -31,13 +37,14 @@ export const mockEquipments: Equipment[] = [
     serialNumber: 'MRI-001-2023',
     manufacturer: 'Siemens',
     model: 'MAGNETOM Vida',
-    purchaseDate: '2023-01-15',
+    purchaseDate: '2025-01-15',
     warrantyExpiry: '2028-01-15',
     location: 'Radiology Department',
     status: 'Active',
-    lastMaintenance: '2024-11-01',
-    nextMaintenance: '2025-05-01',
-    cost: 15000000
+    lastMaintenance: '2024-11-06',
+    nextMaintenance: '2025-05-07',
+    cost: 15000000,
+    taxRate: 0.05
   },
   {
     id: '2',
@@ -52,7 +59,8 @@ export const mockEquipments: Equipment[] = [
     status: 'Active',
     lastMaintenance: '2024-10-15',
     nextMaintenance: '2025-04-15',
-    cost: 800000
+    cost: 800000,
+    taxRate: 0.05
   },
   {
     id: '3',
@@ -67,7 +75,8 @@ export const mockEquipments: Equipment[] = [
     status: 'Maintenance',
     lastMaintenance: '2024-12-01',
     nextMaintenance: '2025-06-01',
-    cost: 12000000
+    cost: 12000000,
+    taxRate: 0.05
   },
   {
     id: '4',
@@ -82,7 +91,8 @@ export const mockEquipments: Equipment[] = [
     status: 'Active',
     lastMaintenance: '2024-11-20',
     nextMaintenance: '2025-05-20',
-    cost: 350000
+    cost: 350000,
+    taxRate: 0.05
   },
   {
     id: '5',
@@ -97,7 +107,8 @@ export const mockEquipments: Equipment[] = [
     status: 'Active',
     lastMaintenance: '2024-10-30',
     nextMaintenance: '2025-04-30',
-    cost: 1200000
+    cost: 1200000,
+    taxRate: 0.05
   }
 ];
 
@@ -115,7 +126,8 @@ export const mockPurchases: Purchase[] = [
     billNumber: 'SH-2023-001',
     paymentMethod: 'Bank Transfer',
     paymentStatus: 'Paid',
-    notes: 'Installation and training included'
+    notes: 'Installation and training included',
+    taxRate: 0.12
   },
   {
     id: '2',
@@ -130,7 +142,8 @@ export const mockPurchases: Purchase[] = [
     billNumber: 'MD-2023-002',
     paymentMethod: 'Bank Transfer',
     paymentStatus: 'Paid',
-    notes: '2-year warranty included'
+    notes: '2-year warranty included',
+    taxRate: 0.05
   },
   {
     id: '3',
@@ -145,7 +158,8 @@ export const mockPurchases: Purchase[] = [
     billNumber: 'PH-2023-003',
     paymentMethod: 'Cheque',
     paymentStatus: 'Paid',
-    notes: 'Emergency department deployment'
+    notes: 'Emergency department deployment',
+    taxRate: 0.05
   },
   {
     id: '4',
@@ -160,7 +174,8 @@ export const mockPurchases: Purchase[] = [
     billNumber: 'SM-2023-004',
     paymentMethod: 'Bank Transfer',
     paymentStatus: 'Paid',
-    notes: 'OB/GYN department upgrade'
+    notes: 'OB/GYN department upgrade',
+    taxRate: 0.05
   }
 ];
 
@@ -174,10 +189,10 @@ export const mockTickets: Ticket[] = [
     status: 'In Progress',
     assignedTo: 'Dr. Priya Sharma',
     createdBy: 'Technician Raj Kumar',
-    createdAt: '2024-12-15T09:30:00Z',
-    updatedAt: '2024-12-15T14:20:00Z',
+    createdAt: '2025-08-15T09:30:00Z',
+    updatedAt: '2025-08-15T14:20:00Z',
     department: 'Radiology Department',
-    equipmentId: '1',
+    // equipmentId: '1',
     comments: [
       {
         id: '1',
@@ -197,8 +212,8 @@ export const mockTickets: Ticket[] = [
     priority: 'Medium',
     status: 'Open',
     createdBy: 'HR Manager Suresh Gupta',
-    createdAt: '2024-12-14T11:15:00Z',
-    updatedAt: '2024-12-14T11:15:00Z',
+    createdAt: '2025-08-14T11:15:00Z',
+    updatedAt: '2025-08-14T11:15:00Z',
     department: 'Human Resources',
     comments: []
   },
@@ -210,10 +225,10 @@ export const mockTickets: Ticket[] = [
     priority: 'Critical',
     status: 'Open',
     createdBy: 'Nurse Meera Singh',
-    createdAt: '2024-12-15T16:45:00Z',
-    updatedAt: '2024-12-15T16:45:00Z',
+    createdAt: '2025-09-15T16:45:00Z',
+    updatedAt: '2025-09-15T16:45:00Z',
     department: 'Intensive Care Unit',
-    equipmentId: '2',
+    // equipmentId: '2',
     comments: []
   },
   {
@@ -225,8 +240,8 @@ export const mockTickets: Ticket[] = [
     status: 'Pending',
     assignedTo: 'IT Team Lead',
     createdBy: 'Inventory Manager Rohit Das',
-    createdAt: '2024-12-13T10:00:00Z',
-    updatedAt: '2024-12-14T09:30:00Z',
+    createdAt: '2025-10-13T10:00:00Z',
+    updatedAt: '2025-10-14T09:30:00Z',
     department: 'Administration',
     comments: [
       {
@@ -248,11 +263,11 @@ export const mockTickets: Ticket[] = [
     status: 'Resolved',
     assignedTo: 'Biomedical Engineer',
     createdBy: 'Radiology Technician',
-    createdAt: '2024-12-10T08:00:00Z',
-    updatedAt: '2024-12-12T17:30:00Z',
-    resolvedAt: '2024-12-12T17:30:00Z',
+    createdAt: '2025-12-10T08:00:00Z',
+    updatedAt: '2025-10-12T17:30:00Z',
+    resolvedAt: '2024-11-12T17:30:00Z',
     department: 'Radiology Department',
-    equipmentId: '3',
+    // equipmentId: '3',
     comments: [
       {
         id: '3',

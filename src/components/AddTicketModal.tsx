@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Ticket, Equipment } from '../types';
-import { X, AlertTriangle, User, Calendar, Tag } from 'lucide-react';
+import { X, AlertTriangle, User, Tag } from 'lucide-react';
 
 interface AddTicketModalProps {
   isOpen: boolean;

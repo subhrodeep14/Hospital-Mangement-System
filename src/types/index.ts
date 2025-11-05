@@ -12,6 +12,7 @@ export interface Equipment {
   lastMaintenance: string;
   nextMaintenance: string;
   cost: number;
+  taxRate?: number;
 }
 
 export interface User {
@@ -47,6 +48,7 @@ export interface Purchase {
   paymentMethod: 'Cash' | 'Card' | 'Bank Transfer' | 'Cheque';
   paymentStatus: 'Paid' | 'Pending' | 'Partial';
   notes?: string;
+  taxRate: number;
 }
 
 export interface Ticket {
@@ -72,7 +74,6 @@ export interface TicketComment {
   author: string;
   content: string;
   createdAt: string;
-  isInternal: boolean;
   isInternal: boolean;
 }
 

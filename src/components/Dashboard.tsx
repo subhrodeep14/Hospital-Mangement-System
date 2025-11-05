@@ -65,7 +65,13 @@ const Dashboard: React.FC<DashboardProps> = ({ hospital, equipments, onDepartmen
       (department === 'Emergency Medicine' && eq.location.includes('Emergency')) ||
       (department === 'Intensive Care Unit' && eq.location.includes('ICU')) ||
       (department === 'Operating Theater' && eq.location.includes('Operating')) ||
-      (department === 'Blood Bank' && eq.location.includes('Blood'))
+      (department === 'Blood Bank' && eq.location.includes('Blood')) ||
+      (department === 'Gynecology' && eq.location.includes('OB/GYN')) ||
+      (department === 'Pediatrics' && eq.location.includes('Pediatrics')) ||
+      (department === 'Neurology' && eq.location.includes('Neurology')) ||
+      (department === 'Orthopedics' && eq.location.includes('Orthopedics')) ||
+      (department === 'ENT' && eq.location.includes('ENT')) ||
+      (department === 'Dermatology' && eq.location.includes('Dermatology'))
     ).length;
   };
 

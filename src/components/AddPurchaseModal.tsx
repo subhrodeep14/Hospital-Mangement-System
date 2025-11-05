@@ -27,7 +27,8 @@ const AddPurchaseModal: React.FC<AddPurchaseModalProps> = ({
     billNumber: '',
     paymentMethod: 'Bank Transfer',
     paymentStatus: 'Pending',
-    notes: ''
+    notes: '',
+    taxRate: 0
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -35,8 +36,10 @@ const AddPurchaseModal: React.FC<AddPurchaseModalProps> = ({
   const paymentMethods: Purchase['paymentMethod'][] = ['Cash', 'Card', 'Bank Transfer', 'Cheque'];
   const paymentStatuses: Purchase['paymentStatus'][] = ['Paid', 'Pending', 'Partial'];
 
-  const calculateTotal = (quantity: number, unitPrice: number) => {
-    return quantity * unitPrice;
+  const calculateTotal = (quantity: number, unitPrice: number, taxRate: number) => {
+    const subtotal = quantity * unitPrice;
+    const tax = subtotal * (taxRate / 100);
+    return subtotal + tax;
   };
 
   const validateForm = () => {
@@ -62,7 +65,7 @@ const AddPurchaseModal: React.FC<AddPurchaseModalProps> = ({
     const newPurchase: Purchase = {
       ...formData,
       id: Date.now().toString(),
-      totalAmount: calculateTotal(formData.quantity, formData.unitPrice)
+      totalAmount: calculateTotal(formData.quantity, formData.unitPrice, formData.taxRate)
     };
 
     onSubmit(newPurchase);
@@ -72,10 +75,11 @@ const AddPurchaseModal: React.FC<AddPurchaseModalProps> = ({
     const updatedData = { ...formData, [field]: value };
     
     // Auto-calculate total when quantity or unit price changes
-    if (field === 'quantity' || field === 'unitPrice') {
+    if (field === 'quantity' || field === 'unitPrice' || field === 'taxRate') {
       updatedData.totalAmount = calculateTotal(
         field === 'quantity' ? value as number : formData.quantity,
-        field === 'unitPrice' ? value as number : formData.unitPrice
+        field === 'unitPrice' ? value as number : formData.unitPrice,
+        field === 'taxRate' ? value as number : formData.taxRate
       );
     }
     
@@ -98,7 +102,7 @@ const AddPurchaseModal: React.FC<AddPurchaseModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b">
           <h2 className="text-2xl font-bold text-gray-900">Add New Purchase</h2>
           <button
@@ -236,10 +240,26 @@ const AddPurchaseModal: React.FC<AddPurchaseModalProps> = ({
                   errors.unitPrice ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Enter unit price"
-                min="0"
-                step="0.01"
+                min=""
               />
               {errors.unitPrice && <p className="text-red-500 text-sm mt-1">{errors.unitPrice}</p>}
+            </div>
+
+             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                GST (%) *
+              </label>
+              <input
+                type="number"
+                value={formData.taxRate}
+                onChange={(e) => handleChange('taxRate', parseFloat(e.target.value) || 0)}
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                  errors.taxRate ? 'border-red-500' : 'border-gray-300'
+                }`}
+                placeholder="Enter GST"
+                min=""
+              />
+              {errors.taxRate && <p className="text-red-500 text-sm mt-1">{errors.taxRate}</p>}
             </div>
 
             {/* Total Amount (Read-only) */}
