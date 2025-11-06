@@ -66,7 +66,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavClick, onLogout }) => {
       </nav>
 
       {/* Logout Button */}
-      <div className="pt-3 border-t border-b border-slate-700">
+      <div className="pt-3 border-t  border-slate-700">
         <button
           onClick={onLogout}
           className="w-full flex items-center gap-3 px-4 py-3 mb-6  rounded-lg transition-all duration-200 text-slate-300 hover:bg-red-600 hover:text-white"
@@ -76,9 +76,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavClick, onLogout }) => {
         </button>
        
       </div>
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <img src={roboLogo} alt="Robo Logo" className="w-72 h-14" />
-      </div>
+      </div> */}
     </div>
   );
 };

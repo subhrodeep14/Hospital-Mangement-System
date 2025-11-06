@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { User, Bell, Shield, Database, Mail, Phone, MapPin, DoorOpen } from 'lucide-react';
-import AddRoomManagement from './AddRoomManagement';
+// import AddRoomManagement from './AddRoomManagement';
 
 const Settings: React.FC = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -10,11 +10,11 @@ const Settings: React.FC = () => {
     { id: 'notifications', label: 'Notifications', icon: Bell },
     { id: 'security', label: 'Security', icon: Shield },
     { id: 'system', label: 'System', icon: Database },
-    { id: 'rooms', label: 'Rooms', icon: DoorOpen },
+    // { id: 'rooms', label: 'Rooms', icon: DoorOpen },
   ];
-            {activeTab === 'rooms' && (
-              <AddRoomManagement />
-            )}
+            // {activeTab === 'rooms' && (
+            //   <AddRoomManagement />
+            // )}
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen ml-[250px] scroll">
