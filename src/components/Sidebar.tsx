@@ -8,6 +8,7 @@ import {
   Settings,
   Ticket,
   ShoppingCart,
+  FileText,
   LogOut,
 } from "lucide-react";
 import orangePlus from "../assets/images - Logo 3.png";
@@ -27,6 +28,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavClick, onLogout }) => {
     { path: "/purchases", label: "Purchases", icon: ShoppingCart },
     { path: "/tickets", label: "Tickets", icon: Ticket },
     { path: "/settings", label: "Settings", icon: Settings },
+    { path: "/review", label: "Review Ticket", icon: FileText },
+    
   ];
 
   return (

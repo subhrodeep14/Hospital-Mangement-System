@@ -1,157 +1,3 @@
-// import  { useState } from 'react';
-// import LoginPage from './components/LoginPage';
-// import Sidebar from './components/Sidebar';
-// import Dashboard from './components/Dashboard';
-// import EquipmentManagement from './components/EquipmentManagement';
-// import PurchaseManagement from './components/PurchaseManagement';
-// import TicketManagement from './components/TicketManagement';
-// import Settings from './components/Settings';
-// import AddRoomManagement from './components/AddRoomManagement';
-// // import AddBedManagement from './components/AddBedManagement';
-// import { Equipment, Purchase, Ticket } from './types';
-// import { mockEquipments, hospitalInfo, mockPurchases, mockTickets } from './data/mockData';
-
-// function App() {
-//   const [isAuthenticated, setIsAuthenticated] = useState(false);
-//   const [activeSection, setActiveSection] = useState('home');
-//   const [equipments, setEquipments] = useState<Equipment[]>(mockEquipments);
-//   const [purchases, setPurchases] = useState<Purchase[]>(mockPurchases);
-//   const [tickets, setTickets] = useState<Ticket[]>(mockTickets);
-//   const [departmentFilter, setDepartmentFilter] = useState<string>('');
-
-//   const handleAddEquipment = (equipment: Equipment) => {
-//     setEquipments(prev => [...prev, equipment]);
-//   };
-
-//   const handleUpdateEquipment = (updatedEquipment: Equipment) => {
-//     setEquipments(prev =>
-//       prev.map(eq => eq.id === updatedEquipment.id ? updatedEquipment : eq)
-//     );
-//   };
-
-//   const handleDeleteEquipment = (id: string) => {
-//     if (window.confirm('Are you sure you want to delete this equipment?')) {
-//       setEquipments(prev => prev.filter(eq => eq.id !== id));
-//     }
-//   };
-
-//   const handleAddPurchase = (purchase: Purchase) => {
-//     setPurchases(prev => [...prev, purchase]);
-//   };
-
-//   const handleAddTicket = (ticket: Ticket) => {
-//     setTickets(prev => [...prev, ticket]);
-//   };
-
-//   const handleUpdateTicket = (updatedTicket: Ticket) => {
-//     setTickets(prev =>
-//       prev.map(ticket => ticket.id === updatedTicket.id ? updatedTicket : ticket)
-//     );
-//   };
-
-//   const handleDepartmentClick = (department: string) => {
-//     setDepartmentFilter(department);
-//     setActiveSection('equipment');
-//   };
-
-//   const handleClearDepartmentFilter = () => {
-//     setDepartmentFilter('');
-//   };
-
-//   const handleLogin = () => {
-//     // In a real application, you would validate credentials against a backend
-//     setIsAuthenticated(true);
-//   };
-
-//   const handleLogout = () => {
-//     setIsAuthenticated(false);
-//     setActiveSection('home');
-//     setDepartmentFilter('');
-//   };
-
-//   // Show login page if not authenticated
-//   if (!isAuthenticated) {
-//     return <LoginPage onLogin={handleLogin} />;
-//   }
-
-//   const renderContent = () => {
-//     switch (activeSection) {
-//       case 'home':
-//         return (
-//           <Dashboard 
-//             hospital={hospitalInfo} 
-//             equipments={equipments} 
-//             onDepartmentClick={handleDepartmentClick}
-//           />
-//         );
-//       case 'equipment':
-//         return (
-//           <EquipmentManagement
-//             equipments={equipments}
-//             onAddEquipment={handleAddEquipment}
-//             onUpdateEquipment={handleUpdateEquipment}
-//             onDeleteEquipment={handleDeleteEquipment}
-//             departmentFilter={departmentFilter}
-//             onClearDepartmentFilter={handleClearDepartmentFilter}
-//           />
-//         );
-//       case 'rooms':
-//         return <AddRoomManagement />;
-//       // case 'beds':
-//       //   return <AddBedManagement />;
-//       case 'purchases':
-//         return (
-//           <PurchaseManagement
-//             purchases={purchases}
-//             onAddPurchase={handleAddPurchase}
-//           />
-//         );
-//       case 'tickets':
-//         return (
-//           <TicketManagement
-//             tickets={tickets}
-//             equipments={equipments}
-//             onAddTicket={handleAddTicket}
-//             onUpdateTicket={handleUpdateTicket}
-//           />
-//         );
-//       case 'settings':
-//         return <Settings />;
-//       default:
-//         return (
-//           <Dashboard 
-//             hospital={hospitalInfo} 
-//             equipments={equipments} 
-//             onDepartmentClick={handleDepartmentClick}
-//           />
-//         );
-//     }
-//   };
-
-//   return (
-//     <div className="flex min-h-screen bg-gray-100">
-//       <Sidebar 
-//         activeSection={activeSection} 
-//         onSectionChange={(section) => {
-//           setActiveSection(section);
-//           if (section !== 'equipment') {
-//             setDepartmentFilter('');
-//           }
-//         }}
-//         onLogout={handleLogout}
-//       />
-//       <div className="flex-1">
-//         {renderContent()}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
-
-
 import { useState } from "react";
 import { Routes, Route, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 
@@ -163,110 +9,117 @@ import PurchaseManagement from "./components/PurchaseManagement";
 import TicketManagement from "./components/TicketManagement";
 import Settings from "./components/Settings";
 import AddRoomManagement from "./components/AddRoomManagement";
-// import AddBedManagement from './components/AddBedManagement';
 
 import { Equipment, Purchase, Ticket } from "./types";
 import { mockEquipments, hospitalInfo, mockPurchases, mockTickets } from "./data/mockData";
 
-// --- ProtectedRoute wrapper ---
-function ProtectedRoute({
-  isAuthed,
-  children,
-}: {
-  isAuthed: boolean;
-  children: React.ReactNode;
-}) {
+//// 🟢 ADDED — Service Slip + Review Pages
+import ServiceSlip from "./components/Serviceslip";
+import Reviewticket from "./components/Reviewticket";
+import ReviewList from "./components/Reviewlist";
+
+// Protected Route
+function ProtectedRoute({ isAuthed, children }) {
   if (!isAuthed) return <Navigate to="/login" replace />;
   return <>{children}</>;
 }
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [equipments, setEquipments] = useState<Equipment[]>(mockEquipments);
-  const [purchases, setPurchases] = useState<Purchase[]>(mockPurchases);
-  const [tickets, setTickets] = useState<Ticket[]>(mockTickets);
+  const [equipments, setEquipments] = useState(mockEquipments);
+  const [purchases, setPurchases] = useState(mockPurchases);
+  const [tickets, setTickets] = useState(mockTickets);
 
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // CRUD handlers stay the same
-  const handleAddEquipment = (equipment: Equipment) => {
+  //// 🟢 ADDED — Global Slip Control
+  const [showSlip, setShowSlip] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState(null);
+
+  //// 🟢 ADDED — Selected Review Ticket
+  const [reviewTicket, setReviewTicket] = useState(null);
+
+  // CRUD HANDLERS
+  const handleAddEquipment = (equipment) => {
     setEquipments((prev) => [...prev, equipment]);
   };
-  const handleUpdateEquipment = (updatedEquipment: Equipment) => {
+
+  const handleUpdateEquipment = (updatedEquipment) => {
     setEquipments((prev) =>
       prev.map((eq) => (eq.id === updatedEquipment.id ? updatedEquipment : eq))
     );
   };
-  const handleDeleteEquipment = (id: string) => {
-    if (window.confirm("Are you sure you want to delete this equipment?")) {
+
+  const handleDeleteEquipment = (id) => {
+    if (window.confirm("Delete equipment?")) {
       setEquipments((prev) => prev.filter((eq) => eq.id !== id));
     }
   };
 
-  const handleAddPurchase = (purchase: Purchase) => {
+  const handleAddPurchase = (purchase) => {
     setPurchases((prev) => [...prev, purchase]);
   };
 
-  const handleAddTicket = (ticket: Ticket) => {
-    setTickets((prev) => [...prev, ticket]);
+  //// 🔵 UPDATED — New ticket now redirects to review page
+  const handleAddTicket = (ticket) => {
+    const updated = { ...ticket, status: "Review Pending" }; //// 🟢 ADDED
+    setTickets((prev) => [...prev, updated]);
+    navigate("/review"); //// 🟢 ADDED
   };
 
-  const handleUpdateTicket = (updatedTicket: Ticket) => {
+  const handleUpdateTicket = (updatedTicket) => {
     setTickets((prev) =>
       prev.map((t) => (t.id === updatedTicket.id ? updatedTicket : t))
     );
   };
 
-  // --- Routing-aware handlers ---
-  const handleDepartmentClick = (department: string) => {
-    // Go to /equipment?dept=<department>
+  const handleDepartmentClick = (department) => {
     setSearchParams({ dept: department });
     navigate("/equipment");
   };
 
   const handleClearDepartmentFilter = () => {
-    // Remove dept query param
     setSearchParams({});
   };
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    navigate("/"); // go to dashboard after login
+    navigate("/");
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    setSearchParams({});
     navigate("/login");
   };
 
-  // Read current department filter from URL query (?dept=...)
+  const visibltickets = tickets.filter(t => t.status!=="Rejected");
+
   const departmentFilter = searchParams.get("dept") ?? "";
 
   return (
-    <div className="flex min-h-screen  bg-gray-100">
-      {/* Sidebar shows only when authed */}
+    <div className="flex min-h-screen bg-gray-100">
+
+      {/* SIDEBAR */}
       <div className="fixed left-0 top-0 h-full w-[300px] overflow-y-auto">
-      
-      {isAuthenticated && (
-        <Sidebar
-          // Use onClick -> navigate() instead of setActiveSection
-          onNavClick={(path: string) => {
-            // If leaving equipment, clear the dept filter for a clean URL
-            if (path !== "/equipment") setSearchParams({});
-            navigate(path);
-          }}
-          onLogout={handleLogout}
-        />
-      )}
+        {isAuthenticated && (
+          <Sidebar
+            onNavClick={(path) => {
+              if (path !== "/equipment") setSearchParams({});
+              navigate(path);
+            }}
+            onLogout={handleLogout}
+          />
+        )}
       </div>
-      <div className={`flex-1`}>
+
+      <div className="flex-1 ml-[300px]">
         <Routes>
-          {/* Public route: login */}
+          
+          {/* LOGIN */}
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
 
-          {/* Protected routes */}
+          {/* DASHBOARD */}
           <Route
             path="/"
             element={
@@ -280,6 +133,7 @@ function App() {
             }
           />
 
+          {/* EQUIPMENT */}
           <Route
             path="/equipment"
             element={
@@ -296,6 +150,7 @@ function App() {
             }
           />
 
+          {/* ROOMS */}
           <Route
             path="/rooms"
             element={
@@ -305,15 +160,7 @@ function App() {
             }
           />
 
-          {/* <Route
-            path="/beds"
-            element={
-              <ProtectedRoute isAuthed={isAuthenticated}>
-                <AddBedManagement />
-              </ProtectedRoute>
-            }
-          /> */}
-
+          {/* PURCHASES */}
           <Route
             path="/purchases"
             element={
@@ -326,20 +173,70 @@ function App() {
             }
           />
 
+          {/* TICKETS */}
           <Route
             path="/tickets"
             element={
               <ProtectedRoute isAuthed={isAuthenticated}>
                 <TicketManagement
-                  tickets={tickets}
+                  tickets={visibltickets}
                   equipments={equipments}
                   onAddTicket={handleAddTicket}
                   onUpdateTicket={handleUpdateTicket}
+
+                  //// 🟢 ADDED - OPEN SERVICE SLIP
+                  onSlip={(ticket) => {
+                    setSelectedTicket(ticket);
+                    setShowSlip(true);
+                  }}
                 />
               </ProtectedRoute>
             }
           />
 
+          {/* 🟢 REVIEW PAGE (LIST + SINGLE) */}
+          <Route
+            path="/review"
+            element={
+              <ProtectedRoute isAuthed={isAuthenticated}>
+                {!reviewTicket ? (
+                  
+                  //// 🟢 Show list of all pending review tickets
+                  <ReviewList
+                    tickets={tickets}
+                    onSelect={(ticket) => setReviewTicket(ticket)}
+                  />
+
+                ) : (
+
+                  //// 🟢 Show selected ticket review
+                  <Reviewticket
+                    ticket={reviewTicket}
+                    onUpdate={(updated) => {
+                      handleUpdateTicket(updated);
+                    }}
+                    onApprove={() => {
+                      handleUpdateTicket({
+                        ...reviewTicket,
+                        status: "Open", //// 🟢 Approve means OPEN
+                      });
+                      setReviewTicket(null);
+                    }}
+                    onReject={() => {
+                      handleUpdateTicket({
+                        ...reviewTicket,
+                        status: "Rejected",
+                      });
+                      setReviewTicket(null);
+                    }}
+                  />
+
+                )}
+              </ProtectedRoute>
+            }
+          />
+
+          {/* SETTINGS */}
           <Route
             path="/settings"
             element={
@@ -349,10 +246,23 @@ function App() {
             }
           />
 
-          {/* 404 */}
-          <Route path="*" element={<Navigate to={isAuthenticated ? "/" : "/login"} replace />} />
+          {/* DEFAULT REDIRECT */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
+
+      {/* 🟢 GLOBAL SERVICE SLIP */}
+      {showSlip && selectedTicket && (
+        <ServiceSlip
+          ticket={selectedTicket}
+          onClose={() => setShowSlip(false)}
+
+          //// 🟢 Accept / Decline Handlers
+          onAccept={(updated) => handleUpdateTicket(updated)}
+          onDecline={(updated) => handleUpdateTicket(updated)}
+        />
+      )}
+
     </div>
   );
 }

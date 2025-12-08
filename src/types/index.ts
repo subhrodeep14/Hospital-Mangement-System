@@ -57,7 +57,7 @@ export interface Ticket {
   description: string;
   category: 'Technical Issue' | 'Software Request' | 'Access Request' | 'Equipment Issue' | 'Other';
   priority: 'Low' | 'Medium' | 'High' | 'Critical';
-  status: 'Open' | 'In Progress' | 'Pending' | 'Resolved' | 'Closed';
+  status: 'Open' | 'In Progress' | 'Pending' | 'Resolved' | 'Closed' | 'Review Pending';
   assignedTo?: string;
   createdBy: string;
   createdAt: string;
