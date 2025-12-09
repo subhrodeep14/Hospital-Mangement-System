@@ -278,5 +278,125 @@ export const mockTickets: Ticket[] = [
         isInternal: false
       }
     ]
-  }
+  },
+   {
+    id: '6',
+    title: 'MRI Scanner Software Update Required',
+    description: 'The MRI scanner in Radiology Department needs a software update to fix calibration issues. Patients are experiencing longer scan times.',
+    category: 'Technical Issue',
+    priority: 'High',
+    status: 'In Progress',
+    assignedTo: 'Dr. Priya Sharma',
+    createdBy: 'Technician Raj Kumar',
+    createdAt: '2025-08-15T09:30:00Z',
+    updatedAt: '2025-08-15T14:20:00Z',
+    department: 'Radiology Department',
+    // equipmentId: '1',
+    comments: [
+      {
+        id: '1',
+        ticketId: '1',
+        author: 'Dr. Priya Sharma',
+        content: 'I have contacted Siemens support. They will send a technician tomorrow.',
+        createdAt: '2025-10-15T14:20:00Z',
+        isInternal: false
+      }
+    ]
+  },
+   {
+    id: '7',
+    title: 'MRI Scanner Software Update Required',
+    description: 'The MRI scanner in Radiology Department needs a software update to fix calibration issues. Patients are experiencing longer scan times.',
+    category: 'Technical Issue',
+    priority: 'High',
+    status: 'In Progress',
+    assignedTo: 'Dr. Priya Sharma',
+    createdBy: 'Technician Raj Kumar',
+    createdAt: '2025-08-15T09:30:00Z',
+    updatedAt: '2025-08-15T14:20:00Z',
+    department: 'Radiology Department',
+    // equipmentId: '1',
+    comments: [
+      {
+        id: '1',
+        ticketId: '1',
+        author: 'Dr. Priya Sharma',
+        content: 'I have contacted Siemens support. They will send a technician tomorrow.',
+        createdAt: '2025-10-15T14:20:00Z',
+        isInternal: false
+      }
+    ]
+  },
+   {
+    id: '8',
+    title: 'MRI Scanner Software Update Required',
+    description: 'The MRI scanner in Radiology Department needs a software update to fix calibration issues. Patients are experiencing longer scan times.',
+    category: 'Technical Issue',
+    priority: 'High',
+    status: 'In Progress',
+    assignedTo: 'Dr. Priya Sharma',
+    createdBy: 'Technician Raj Kumar',
+    createdAt: '2025-08-15T09:30:00Z',
+    updatedAt: '2025-08-15T14:20:00Z',
+    department: 'Radiology Department',
+    // equipmentId: '1',
+    comments: [
+      {
+        id: '1',
+        ticketId: '1',
+        author: 'Dr. Priya Sharma',
+        content: 'I have contacted Siemens support. They will send a technician tomorrow.',
+        createdAt: '2025-10-15T14:20:00Z',
+        isInternal: false
+      }
+    ]
+  },
+   {
+    id: '9',
+    title: 'MRI Scanner Software Update Required',
+    description: 'The MRI scanner in Radiology Department needs a software update to fix calibration issues. Patients are experiencing longer scan times.',
+    category: 'Technical Issue',
+    priority: 'High',
+    status: 'In Progress',
+    assignedTo: 'Dr. Priya Sharma',
+    createdBy: 'Technician Raj Kumar',
+    createdAt: '2025-08-15T09:30:00Z',
+    updatedAt: '2025-08-15T14:20:00Z',
+    department: 'Radiology Department',
+    // equipmentId: '1',
+    comments: [
+      {
+        id: '1',
+        ticketId: '1',
+        author: 'Dr. Priya Sharma',
+        content: 'I have contacted Siemens support. They will send a technician tomorrow.',
+        createdAt: '2025-10-15T14:20:00Z',
+        isInternal: false
+      }
+    ]
+  },
+   {
+    id: '10',
+    title: 'MRI Scanner Software Update Required',
+    description: 'The MRI scanner in Radiology Department needs a software update to fix calibration issues. Patients are experiencing longer scan times.',
+    category: 'Technical Issue',
+    priority: 'High',
+    status: 'In Progress',
+    assignedTo: 'Dr. Priya Sharma',
+    createdBy: 'Technician Raj Kumar',
+    createdAt: '2025-08-15T09:30:00Z',
+    updatedAt: '2025-08-15T14:20:00Z',
+    department: 'Radiology Department',
+    // equipmentId: '1',
+    comments: [
+      {
+        id: '1',
+        ticketId: '1',
+        author: 'Dr. Priya Sharma',
+        content: 'I have contacted Siemens support. They will send a technician tomorrow.',
+        createdAt: '2025-10-15T14:20:00Z',
+        isInternal: false
+      }
+    ]
+  },
 ];
