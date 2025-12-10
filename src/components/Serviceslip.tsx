@@ -10,7 +10,7 @@ interface ServiceSlipProps {
 }
 
 const FALLBACK_UNIT = 'NGHC – SILIGURI';
-
+// service status pill styles
 const statusPill = (status: string) => {
 	switch (status) {
 		case 'Resolved':
