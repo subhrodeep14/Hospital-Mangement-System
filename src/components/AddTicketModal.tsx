@@ -88,6 +88,7 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
       id: Date.now().toString(),
       createdAt: now,
       updatedAt: now,
+      status:'Review Pending',
       comments: []
     };
 
