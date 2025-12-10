@@ -203,8 +203,8 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 	return (
 		<div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-10">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-8">
-					<div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+				<div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-8 border-2 border-blue-100 ring-1 ring-blue-100">
+					<div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between ">
 						<div>
 							<p className="text-sm uppercase tracking-[0.3em] text-blue-500 font-semibold">Operations</p>
 							<h1 className="text-3xl md:text-4xl font-bold text-slate-900 mt-2">Ticket Management</h1>
@@ -220,133 +220,137 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 					</div>
 				</div>
 
-				<section className="mb-8">
-					<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-						{statCards.map((card) => (
-							<button
-								key={card.title}
-								onClick={card.onClick}
-								className="w-full rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-200 group text-left relative"
-							>
-								<div className="p-5 flex items-start justify-between">
-									<div>
-										<p className="text-slate-500 text-sm">{card.title}</p>
-										<p className="text-3xl font-bold text-slate-900 mt-1">{card.value}</p>
-									</div>
-									<div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.accent} flex items-center justify-center shadow-inner`}>
-										{card.icon}
-									</div>
-								</div>
-								<div className="absolute inset-x-3 bottom-3 h-1 rounded-full bg-gradient-to-r from-blue-100 to-transparent opacity-0 group-hover:opacity-100 transition" />
-							</button>
-						))}
-					</div>
-				</section>
 
-				<section className="mb-8">
-					<div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-6">
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-							<div className="relative">
-								<Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-								<input
-									type="text"
-									value={searchTerm}
-									onChange={(e) => setSearchTerm(e.target.value)}
-									placeholder="Search by title, description, owner..."
-									className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-12 pr-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:bg-white"
-								/>
-							</div>
-
-							<div className="flex flex-wrap gap-2 md:col-span-2">
-								{statusOptions.map((option) => (
+				<div className="space-y-10 divide-y divide-slate-200">
+					<section className="pt-10">
+						<div className="rounded-2xl border-2 border-blue-100 bg-white/80 p-4 shadow-sm">
+							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+								{statCards.map((card) => (
 									<button
-										key={option}
-										onClick={() => setStatusFilter(option)}
-										className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
-											statusFilter === option
-												? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-												: 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
-										}`}
+										key={card.title}
+										onClick={card.onClick}
+										className="w-full rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-200 group text-left relative"
 									>
-										{option === 'all' ? 'All Status' : option}
+										<div className="p-5 flex items-start justify-between">
+											<div>
+												<p className="text-slate-500 text-sm">{card.title}</p>
+												<p className="text-3xl font-bold text-slate-900 mt-1">{card.value}</p>
+											</div>
+											<div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.accent} flex items-center justify-center shadow-inner`}>
+												{card.icon}
+											</div>
+										</div>
+										<div className="absolute inset-x-3 bottom-3 h-1 rounded-full bg-gradient-to-r from-blue-100 to-transparent opacity-0 group-hover:opacity-100 transition" />
 									</button>
 								))}
 							</div>
 						</div>
+					</section>
 
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-							<div className="flex flex-wrap gap-2 md:col-span-2">
-								{priorityOptions.map((option) => (
-									<button
-										key={option}
-										onClick={() => setPriorityFilter(option)}
-										className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
-											priorityFilter === option
-												? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
-												: 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
-										}`}
-									>
-										{option === 'all' ? 'All Priorities' : option}
-									</button>
-								))}
+					<section className="pt-10">
+						<div className="bg-white rounded-2xl border-2 border-indigo-100 ring-1 ring-indigo-50 shadow-sm p-6 space-y-6">
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+								<div className="relative">
+									<Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+									<input
+										type="text"
+										value={searchTerm}
+										onChange={(e) => setSearchTerm(e.target.value)}
+										placeholder="Search by title, description, owner..."
+										className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-12 pr-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:bg-white"
+									/>
+								</div>
+
+								<div className="flex flex-wrap gap-2 md:col-span-2">
+									{statusOptions.map((option) => (
+										<button
+											key={option}
+											onClick={() => setStatusFilter(option)}
+											className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
+												statusFilter === option
+													? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+													: 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+											}`}
+										>
+											{option === 'all' ? 'All Status' : option}
+										</button>
+									))}
+								</div>
 							</div>
 
-							<div className="flex gap-2 flex-wrap">
-								<button
-									onClick={() => setCategoryFilter('all')}
-									className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
-										categoryFilter === 'all'
-											? 'bg-slate-900 text-white border-slate-900'
-											: 'bg-white border-slate-200 text-slate-600'
-									}`}
-								>
-									All Categories
-								</button>
-								{TICKET_CATEGORIES.map((category) => (
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+								<div className="flex flex-wrap gap-2 md:col-span-2">
+									{priorityOptions.map((option) => (
+										<button
+											key={option}
+											onClick={() => setPriorityFilter(option)}
+											className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
+												priorityFilter === option
+													? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
+													: 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+											}`}
+										>
+											{option === 'all' ? 'All Priorities' : option}
+										</button>
+									))}
+								</div>
+
+								<div className="flex gap-2 flex-wrap">
 									<button
-										key={category}
-										onClick={() => setCategoryFilter(category)}
+										onClick={() => setCategoryFilter('all')}
 										className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
-											categoryFilter === category
+											categoryFilter === 'all'
 												? 'bg-slate-900 text-white border-slate-900'
 												: 'bg-white border-slate-200 text-slate-600'
 										}`}
 									>
-										{category}
+										All Categories
 									</button>
-								))}
+									{TICKET_CATEGORIES.map((category) => (
+										<button
+											key={category}
+											onClick={() => setCategoryFilter(category)}
+											className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
+												categoryFilter === category
+													? 'bg-slate-900 text-white border-slate-900'
+													: 'bg-white border-slate-200 text-slate-600'
+											}`}
+										>
+											{category}
+										</button>
+									))}
+								</div>
+							</div>
+
+							<div className="flex flex-wrap items-center justify-between gap-3">
+								<div className="flex flex-wrap gap-2">
+									{activeFilters.length === 0 && <span className="text-sm text-slate-500">No active filters</span>}
+									{activeFilters.map((filter) => (
+										<span
+											key={filter.label}
+											className={`px-3 py-1 rounded-full text-xs font-semibold border ${filterToneClasses[filter.tone]}`}
+										>
+											{filter.label}
+										</span>
+									))}
+								</div>
+								<button
+									onClick={() => {
+										setStatusFilter('all');
+										setPriorityFilter('all');
+										setCategoryFilter('all');
+										setSearchTerm('');
+									}}
+									className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 text-sm text-slate-600 hover:bg-slate-50"
+								>
+									<Filter className="w-4 h-4" />
+									Clear Filters
+								</button>
 							</div>
 						</div>
+					</section>
 
-						<div className="flex flex-wrap items-center justify-between gap-3">
-							<div className="flex flex-wrap gap-2">
-								{activeFilters.length === 0 && <span className="text-sm text-slate-500">No active filters</span>}
-								{activeFilters.map((filter) => (
-									<span
-										key={filter.label}
-										className={`px-3 py-1 rounded-full text-xs font-semibold border ${filterToneClasses[filter.tone]}`}
-									>
-										{filter.label}
-									</span>
-								))}
-							</div>
-							<button
-								onClick={() => {
-									setStatusFilter('all');
-									setPriorityFilter('all');
-									setCategoryFilter('all');
-									setSearchTerm('');
-								}}
-								className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 text-sm text-slate-600 hover:bg-slate-50"
-							>
-								<Filter className="w-4 h-4" />
-								Clear Filters
-							</button>
-						</div>
-					</div>
-				</section>
-
-				<section className="mb-8 space-y-6">
+					<section className="pt-10 space-y-6">
 					<div className="space-y-4 md:hidden">
 						{filteredTickets.map((ticket) => (
 							<div key={ticket.id} className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
@@ -409,8 +413,8 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 						)}
 					</div>
 
-					<div className="hidden md:block">
-						<div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-x-auto">
+						<div className="hidden md:block">
+							<div className="bg-white rounded-2xl border-2 border-slate-200 ring-1 ring-slate-100 shadow-sm overflow-x-auto">
 							<table className="w-full table-auto">
 								<thead>
 									<tr className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50">
@@ -508,6 +512,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 						</div>
 					</div>
 				</section>
+				</div>
 
 				{showAddModal && (
 					<AddTicketModal
