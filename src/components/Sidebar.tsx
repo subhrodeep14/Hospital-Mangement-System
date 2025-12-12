@@ -25,15 +25,16 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavClick, onLogout }) => {
   const menuItems = [
     { path: "/", label: "Dashboard", icon: Home },
     { path: "/equipment", label: "Equipment", icon: Package },
-    { path: "/purchases", label: "Purchases", icon: ShoppingCart },
+   // { path: "/purchases", label: "Purchases", icon: ShoppingCart },
     { path: "/tickets", label: "Tickets", icon: Ticket },
-    { path: "/settings", label: "Settings", icon: Settings },
+   
     { path: "/review", label: "Review Ticket", icon: FileText },
+     { path: "/settings", label: "Settings", icon: Settings }
     
   ];
 
   return (
-    <div className="bg-slate-900 text-white w-64 h-screen overflow-y-auto p-6 flex flex-col">
+    <div className="bg-slate-900 fixed left-0 top-0 text-white w-[300px] h-screen overflow-y-auto p-6 flex flex-col">
       {/* Logo and Title */}
       <div className="flex items-center gap-3 mb-10">
         <div className="bg-white p-2 rounded-lg">

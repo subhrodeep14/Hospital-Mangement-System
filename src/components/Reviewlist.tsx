@@ -37,8 +37,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ tickets, onSelect }) => {
 
   if (tickets.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-6">
-        <div className="w-full max-w-xl rounded-3xl border border-white/10 bg-white/5 p-10 text-center backdrop-blur shadow-2xl">
+      <div className="min-h-screen ml-[300px] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-6">
+        <div className=" max-w-7xl rounded-3xl border border-white/10 bg-white/5 p-10 text-center backdrop-blur shadow-2xl">
           <AlertTriangle className="mx-auto mb-6 h-14 w-14 text-white" />
           <h1 className="text-3xl font-semibold text-white">Nothing waiting</h1>
           <p className="mt-3 text-slate-300">
@@ -50,7 +50,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ tickets, onSelect }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 py-12">
+    <div className="min-h-screen ml-[300px] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 py-12">
       <div className="flex w-full flex-col gap-12 px-6 sm:px-10 lg:px-16">
         <header className="space-y-3">
           <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Review desk</p>

@@ -17,14 +17,17 @@ import {
 
 import AddTicketModal from './AddTicketModal';
 import TicketDetailsModal from './TicketDetailsModal';
+import { axiosClient } from '../api/axiosClient';
 
 interface TicketManagementProps {
 	tickets: Ticket[];
 	equipments: Equipment[];
-	onAddTicket: (ticket: Ticket) => void;
+	onAddTicket: {handleAddTicket};
 	onUpdateTicket: (ticket: Ticket) => void;
 	onSlip: (ticket: Ticket) => void;
 }
+
+
 
 const statusOptions = ['all', 'Open', 'In Progress', 'Pending', 'Resolved', 'Closed'];
 const priorityOptions = ['all', 'Low', 'Medium', 'High', 'Critical'];
@@ -201,9 +204,9 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 	].filter(Boolean) as { label: string; tone: FilterTone }[];
 
 	return (
-		<div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-10">
+		<div className="min-h-screen ml-[300px] bg-gradient-to-b text-md from-slate-50 to-white py-10">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-8 border-2 border-blue-100 ring-1 ring-blue-100">
+				<div className="bg-white rounded-2xl shadow-sm  p-6 mb-2 border-2 border-blue-100 ring-1 ring-blue-100">
 					<div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between ">
 						<div>
 							<p className="text-sm uppercase tracking-[0.3em] text-blue-500 font-semibold">Operations</p>
@@ -222,7 +225,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 
 
 				<div className="space-y-10 divide-y divide-slate-200">
-					<section className="pt-10">
+					<section className="pt-2">
 						<div className="rounded-2xl border-2 border-blue-100 bg-white/80 p-4 shadow-sm">
 							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
 								{statCards.map((card) => (
@@ -247,7 +250,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 						</div>
 					</section>
 
-					<section className="pt-10">
+					<section className="pt-2">
 						<div className="bg-white rounded-2xl border-2 border-indigo-100 ring-1 ring-indigo-50 shadow-sm p-6 space-y-6">
 							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 								<div className="relative">
