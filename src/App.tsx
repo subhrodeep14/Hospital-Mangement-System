@@ -18,7 +18,7 @@ import Settings from "./components/Settings";
 import AddRoomManagement from "./components/AddRoomManagement";
 import SelectUnitPage from "./components/SelectUnitPage";
 
-import { mockEquipments, hospitalInfo, mockTickets } from "./data/mockData";
+import { mockEquipments, hospitalInfo} from "./data/mockData";
 import Reviewticket from "./components/Reviewticket";
 import ReviewList from "./components/Reviewlist";
 import ServiceSlip from "./components/Serviceslip";
@@ -64,11 +64,11 @@ function App() {
   const [loggedUser, setLoggedUser] = useState<any>(null);
 
   const [equipments] = useState(mockEquipments);
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  // const [tickets, setTickets] = useState<Ticket[]>([]);
 
-  const [reviewTicket, setReviewTicket] = useState<Ticket | null>(null);
-  const [showSlip, setShowSlip] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  // const [reviewTicket, setReviewTicket] = useState<Ticket | null>(null);
+  // const [showSlip, setShowSlip] = useState(false);
+  // const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 
   const navigate = useNavigate();
 
@@ -98,50 +98,49 @@ function App() {
   };
 
   /* ------------------------------ TICKETS ------------------------------ */
-  const handleAddTicket = async (ticket: Ticket) => {
-    setTickets((prev) => [...prev, ticket]);
-  };
+//   const handleAddTicket = async (ticket: Ticket) => {
+//     setTickets((prev) => [...prev, ticket]);
+//   };
 
-  const handleUpdateTicket = async (updated: Ticket) => {
-    setTickets((prev) =>
-      prev.map((t) => (t.id === updated.id ? updated : t))
-    );
-  };
-
-//   useEffect(() => {
+//   const handleUpdateTicket = async (updated: Ticket) => {
+//     setTickets((prev) =>
+//       prev.map((t) => (t.id === updated.id ? updated : t))
+//     );
+//   };
 
 
-const { unitId } = useParams();
 
-useEffect(() => {
-  if (!isAuthenticated) return;
-  if (location.pathname === "/select-unit") return;
-   if (!location.pathname.endsWith("/tickets")) return;
-  const fetchTickets = async () => {
-    try {
+// const { unitId } = useParams();
+
+// useEffect(() => {
+//   if (!isAuthenticated) return;
+//   if (location.pathname === "/select-unit") return;
+//    if (!location.pathname.endsWith("/tickets")) return;
+//   const fetchTickets = async () => {
+//     try {
     
-      const res = await axiosClient.get("/tickets");
+//       const res = await axiosClient.get("/tickets");
 
-      const normalizedTickets = res.data.tickets.map((t: any) => ({
-        ...t,
-        comments: t.comments ?? [],
-        attachments: t.attachments ?? [],
-        assignedTo: t.assignedTo ?? null,
-      }));
+//       const normalizedTickets = res.data.tickets.map((t: any) => ({
+//         ...t,
+//         comments: t.comments ?? [],
+//         attachments: t.attachments ?? [],
+//         assignedTo: t.assignedTo ?? null,
+//       }));
 
-      setTickets(normalizedTickets);
+//       setTickets(normalizedTickets);
 
-    } catch (err) {
-      console.error("Failed to fetch tickets", err);
-    }
-  };
+//     } catch (err) {
+//       console.error("Failed to fetch tickets", err);
+//     }
+//   };
 
-  fetchTickets();
-}, [isAuthenticated, unitId, location.pathname]);
+//   fetchTickets();
+// }, [isAuthenticated, unitId, location.pathname]);
 
 
 
-  const visibleTickets = tickets;
+ // const visibleTickets = tickets;
 
   return (
     <div className="flex">
@@ -183,18 +182,18 @@ useEffect(() => {
             path="tickets"
             element={
               <TicketManagement
-                tickets={visibleTickets}
-                equipments={equipments}
-                onAddTicket={handleAddTicket}
-                onUpdateTicket={handleUpdateTicket}
-                onSlip={(ticket) => {
-                  setSelectedTicket(ticket);
-                  setShowSlip(true);
-                }}
+               // tickets={visibleTickets}
+              //  equipments={equipments}
+                // onAddTicket={handleAddTicket}
+                // onUpdateTicket={handleUpdateTicket}
+                // onSlip={(ticket) => {
+                //   setSelectedTicket(ticket);
+                //   setShowSlip(true);
+                // }}
               />
             }
           />
-
+{/* 
           <Route
             path="review"
             element={
@@ -216,7 +215,7 @@ useEffect(() => {
                 />
               )
             }
-          />
+          /> */}
 
           <Route path="settings" element={<Settings />} />
           <Route path="rooms" element={<AddRoomManagement />} />
@@ -227,14 +226,14 @@ useEffect(() => {
       </Routes>
 
       {/* SERVICE SLIP */}
-      {showSlip && selectedTicket && (
+      {/* {showSlip && selectedTicket && (
         <ServiceSlip
           ticket={selectedTicket}
           onClose={() => setShowSlip(false)}
           onAccept={handleUpdateTicket}
           onDecline={handleUpdateTicket}
         />
-      )}
+      )} */}
     </div>
   );
 }

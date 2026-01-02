@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Ticket, Equipment } from '../types';
+import { Ticket,  } from '../types';
 import { TICKET_CATEGORIES } from '../constants/category';
+import { useParams  } from 'react-router-dom';
+import { axiosClient } from '../api/axiosClient';
 import {
 	Plus,
 	Search,
@@ -17,19 +19,21 @@ import {
 
 import AddTicketModal from './AddTicketModal';
 import TicketDetailsModal from './TicketDetailsModal';
+import ServiceSlip from './Serviceslip';
 
 
 interface TicketManagementProps {
-	tickets: Ticket[];
-	equipments: Equipment[];
-	onAddTicket: (ticket: Ticket) => void | Promise<void>;
-	onUpdateTicket: (ticket: Ticket) => void;
-	onSlip: (ticket: Ticket) => void;
+	// tickets: Ticket[];
+	// equipments: Equipment[];
+	// onAddTicket: (ticket: Ticket) => void | Promise<void>;
+	// onUpdateTicket: (ticket: Ticket) => void;
+	// onSlip: (ticket: Ticket) => void;
 }
 
 
 const statusOptions = ['all', 'Open', 'In Progress', 'Pending', 'Resolved', 'Closed'];
 const priorityOptions = ['all', 'Low', 'Medium', 'High', 'Critical'];
+
 
 const filterToneClasses = {
 	blue: 'bg-blue-50 text-blue-700 border-blue-100',
@@ -41,19 +45,105 @@ const filterToneClasses = {
 type FilterTone = keyof typeof filterToneClasses;
 
 const TicketManagement: React.FC<TicketManagementProps> = ({
-	tickets,
-	equipments,
-	onAddTicket,
-	onUpdateTicket,
-	onSlip,
+	// tickets,
+	// equipments,
+	// onAddTicket,
+	// onUpdateTicket,
+	// onSlip,
 }) => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [statusFilter, setStatusFilter] = useState<string>('all');
 	const [priorityFilter, setPriorityFilter] = useState<string>('all');
 	const [categoryFilter, setCategoryFilter] = useState<string>('all');
 	const [showAddModal, setShowAddModal] = useState(false);
-	const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+	//const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 	const [showDetailsModal, setShowDetailsModal] = useState(false);
+
+
+
+	  const [tickets, setTickets] = useState<Ticket[]>([]);
+
+  //const [reviewTicket, setReviewTicket] = useState<Ticket | null>(null);
+  const [showSlip, setShowSlip] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+ // const [selectedUnitId, setSelectedUnitId] = useState<number | null>(null);
+
+    const handleAddTicket = async (ticket: Ticket) => {
+    setTickets((prev) => [...prev, ticket]);
+  };
+
+  const handleUpdateTicket = async (updated: Ticket) => {
+    setTickets((prev) =>
+      prev.map((t) => (t.id === updated.id ? updated : t))
+    );
+  };
+
+
+
+const { unitId } = useParams();
+
+
+const handleSlip = (ticket: Ticket) => {
+  setSelectedTicket(ticket);
+  setShowSlip(true);
+};
+
+
+// useEffect(() => {
+
+ 
+  
+//   const fetchTickets = async () => {
+// 	try {
+	
+// 	  const res = await axiosClient.get("/tickets",{
+// 		params: {unitId:selectUnitId},
+// 	  });
+
+// 	  const tickets = res.data.tickets.map((t: any) => ({
+// 		...t,
+// 		comments: t.comments ?? [],
+// 		attachments: t.attachments ?? [],
+// 		assignedTo: t.assignedTo ?? null,
+// 	  }));
+
+// 	  setTickets(tickets);
+
+// 	} catch (err: any) {
+//   console.error("Failed to fetch tickets");
+//   console.error("STATUS:", err?.response?.status);
+//   console.error("DATA:", err?.response?.data);
+//   console.error("MESSAGE:", err?.message);
+// }
+//   };
+
+//   fetchTickets();
+// }, [ unitId]);
+	useEffect(() => {
+  if (!unitId) return;
+
+  const fetchTickets = async () => {
+    try {
+      const res = await axiosClient.get(
+        `/tickets/unit/${unitId}`
+      );
+
+      const normalized = res.data.tickets.map((t: any) => ({
+        ...t,
+        comments: t.comments ?? [],
+        attachments: t.attachments ?? [],
+        assignedTo: t.assignedTo ?? null,
+      }));
+
+      setTickets(normalized);
+    } catch (err: any) {
+      console.error("Failed to fetch tickets", err?.response?.data);
+    }
+  };
+
+  fetchTickets();
+}, [unitId]);
+	
 	
 	const filteredTickets = useMemo(() => {
 		return tickets.filter((ticket) => {
@@ -195,10 +285,6 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 	};
 
 
-
-
-
-
 	const activeFilters = [
 		statusFilter !== 'all' && { label: `Status: ${statusFilter}`, tone: 'blue' as FilterTone },
 		priorityFilter !== 'all' && { label: `Priority: ${priorityFilter}`, tone: 'red' as FilterTone },
@@ -216,6 +302,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 							<h1 className="text-3xl md:text-4xl font-bold text-slate-900 mt-2">Ticket Management</h1>
 							<p className="text-slate-500 mt-2">Monitor incidents, triage requests, and keep wards running smoothly.</p>
 						</div>
+
 						<button
 							onClick={() => setShowAddModal(true)}
 							className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-3 text-white font-semibold shadow-lg shadow-blue-500/20 transition hover:shadow-blue-500/40 focus:outline-none focus:ring-4 focus:ring-blue-200"
@@ -401,7 +488,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 											View
 										</button>
 										<button
-											onClick={() => onSlip(ticket)}
+											onClick={() => handleSlip(ticket)}
 											className="inline-flex items-center justify-center rounded-full border border-slate-200 p-2 text-slate-500 hover:text-blue-600 hover:border-blue-300"
 											title="Service call slip"
 										>
@@ -495,7 +582,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 														View
 													</button>
 													<button
-														onClick={() => onSlip(ticket)}
+														onClick={() => handleSlip(ticket)}
 														className="inline-flex items-center justify-center rounded-full border border-slate-200 p-2 text-slate-500 hover:text-blue-600 hover:border-blue-300"
 														title="Service call slip"
 													>
@@ -524,8 +611,8 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 					<AddTicketModal
 						isOpen={showAddModal}
 						onClose={() => setShowAddModal(false)}
-						onSubmit={onAddTicket}
-						equipments={equipments}
+						onSubmit={handleAddTicket}
+						equipments={[]}
 					/>
 				)}
 
@@ -534,10 +621,18 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 						isOpen={showDetailsModal}
 						onClose={() => handleViewTicket(null)}
 						ticket={selectedTicket}
-						onUpdate={onUpdateTicket}
-						equipments={equipments}
+						onUpdate={handleUpdateTicket}
+						equipments={[]}
 					/>
 				)}
+				{showSlip && selectedTicket && (
+        <ServiceSlip
+          ticket={selectedTicket}
+          onClose={() => setShowSlip(false)}
+          onAccept={handleUpdateTicket}
+          onDecline={handleUpdateTicket}
+        />
+      )}
 			</div>
 		</div> 
 	);
