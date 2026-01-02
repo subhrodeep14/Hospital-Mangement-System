@@ -50,7 +50,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ tickets, onSelect }) => {
   }
 
   return (
-    <div className="min-h-screen ml-[300px] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 py-12">
       <div className="flex w-full flex-col gap-12 px-6 sm:px-10 lg:px-16">
         <header className="space-y-3">
           <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Review desk</p>

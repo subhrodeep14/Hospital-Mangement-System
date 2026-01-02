@@ -1,44 +1,41 @@
-
-
-import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import {
   Home,
   Package,
   Settings,
   Ticket,
-  ShoppingCart,
   FileText,
   LogOut,
 } from "lucide-react";
 import orangePlus from "../assets/images - Logo 3.png";
-import roboLogo from "../assets/finallogob.png"
 
-interface SidebarProps {
-  onNavClick: (path: string) => void;
-  onLogout: () => void;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ onNavClick, onLogout }) => {
+const Sidebar = ({ onLogout }: { onLogout: () => void }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // ⭐ THE FIX — always read unitId from URL
+  const { unitId } = useParams();
+
+  // If unitId missing, block sidebar navigation
+  const safeUnitId = unitId ?? "0";
 
   const menuItems = [
-    { path: "/", label: "Dashboard", icon: Home },
-    { path: "/equipment", label: "Equipment", icon: Package },
-   // { path: "/purchases", label: "Purchases", icon: ShoppingCart },
-    { path: "/tickets", label: "Tickets", icon: Ticket },
-   
-    { path: "/review", label: "Review Ticket", icon: FileText },
-     { path: "/settings", label: "Settings", icon: Settings }
-    
+    { key: "dashboard", label: "Dashboard", icon: Home },
+    { key: "equipment", label: "Equipment", icon: Package },
+    { key: "tickets", label: "Tickets", icon: Ticket },
+  //  { key: "review", label: "Review Ticket", icon: FileText },
+    { key: "settings", label: "Settings", icon: Settings },
   ];
 
+  const handleNavClick = (key: string) => {
+    navigate(`/unit/${safeUnitId}/${key}`);
+  };
+
   return (
-    <div className="bg-slate-900 fixed left-0 top-0 text-white w-[300px] h-screen overflow-y-auto p-6 flex flex-col">
-      {/* Logo and Title */}
+    <div className="bg-slate-900 fixed left-0 top-0 text-white w-[300px] h-screen p-6 flex flex-col">
       <div className="flex items-center gap-3 mb-10">
         <div className="bg-white p-2 rounded-lg">
-          <img src={orangePlus} alt="Hospital Logo" className="w-8 h-8" />
+          <img src={orangePlus} className="w-8 h-8" />
         </div>
         <div>
           <h1 className="text-lg font-bold">Neotia Hospital</h1>
@@ -46,43 +43,35 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavClick, onLogout }) => {
         </div>
       </div>
 
-      {/* Navigation */}
       <nav className="space-y-2 flex-1">
         {menuItems.map((item) => {
           const Icon = item.icon;
-          const isActive = location.pathname === item.path;
+
+          const isActive = location.pathname.includes(item.key);
 
           return (
             <button
-              key={item.path}
-              onClick={() => onNavClick(item.path)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+              key={item.key}
+              onClick={() => handleNavClick(item.key)}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg ${
                 isActive
-                  ? "bg-blue-600 text-white shadow-lg"
-                  : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                  ? "bg-blue-600 text-white"
+                  : "text-slate-300 hover:bg-slate-800"
               }`}
             >
               <Icon className="w-5 h-5" />
-              <span className="font-medium">{item.label}</span>
+              {item.label}
             </button>
           );
         })}
       </nav>
 
-      {/* Logout Button */}
-      <div className="pt-3 border-t  border-slate-700">
-        <button
-          onClick={onLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 mb-6  rounded-lg transition-all duration-200 text-slate-300 hover:bg-red-600 hover:text-white"
-        >
-          <LogOut className="w-5 h-5" />
-          <span className="font-medium">Logout</span>
-        </button>
-       
-      </div>
-      {/* <div className="mt-4">
-        <img src={roboLogo} alt="Robo Logo" className="w-72 h-14" />
-      </div> */}
+      <button
+        onClick={onLogout}
+        className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-red-600"
+      >
+        <LogOut className="w-5 h-5" /> Logout
+      </button>
     </div>
   );
 };

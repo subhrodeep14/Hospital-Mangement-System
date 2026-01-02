@@ -55,17 +55,21 @@ export interface Ticket {
   id: string;
   title: string;
   description: string;
-  category: 'Technical Issue' | 'Software Request' | 'Access Request' | 'Equipment Issue' | 'Other';
+  category: 'Technical Issue' | 'Software Request' | 'Access Request' | 'Equipment Issue' | 'Maintenance Request' | 'Biomedical Request' | 'Other';
   priority: 'Low' | 'Medium' | 'High' | 'Critical';
-  status: 'Open' | 'In Progress' | 'Pending' | 'Resolved' | 'Closed' | 'Review Pending';
+  status: 'Open' | 'In Progress' | 'Pending' | 'Resolved' | 'Closed' ;
+  Floor ?: string;
+  Room ?: string;
+  Bed ?: string;
   assignedTo?: string;
-  createdBy: string;
   createdAt: string;
   updatedAt: string;
   resolvedAt?: string;
+  equipmentId?: string;
   department: string;
   attachments?: string[];
-  comments: TicketComment[];
+  createdBy?: string; 
+  comments?: TicketComment[];
 }
 
 export interface TicketComment {

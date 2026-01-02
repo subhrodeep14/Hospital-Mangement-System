@@ -52,6 +52,8 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
   const categories = Array.from(new Set(equipments.map(eq => eq.category)));
   const statuses = ['Active', 'Maintenance', 'Retired', 'Out of Order'];
 
+  
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -92,7 +94,7 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen ml-[300px] scroll">
+    <div className="p-8 bg-gray-50 min-h-screen scroll">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>

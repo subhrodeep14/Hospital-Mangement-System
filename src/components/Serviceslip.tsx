@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Ticket } from '../types';
 import { X, CalendarClock, Building2, User, FileText } from 'lucide-react';
-
+import { axiosClient } from '../api/axiosClient';
 interface ServiceSlipProps {
 	ticket: Ticket | null;
 	onClose: () => void;
@@ -44,15 +44,93 @@ const ServiceSlip: React.FC<ServiceSlipProps> = ({ ticket, onClose, onAccept, on
 
 	if (!ticket) return null;
 
-	const handleAccept = () => {
-		onAccept({ ...ticket, status: 'In Progress' });
-		onClose();
-	};
+	// const handleAccept = () => {
+	// 	onAccept({ ...ticket, status: 'In Progress' });
+	// 	onClose();
+	// };
+// 	const handleAccept = () => {
+//   onAccept({
+//     ...ticket,
+//     status: 'In Progress',
+//     actionDate,
+//     remarks,
+//   });
+//   onClose();
+// };
 
-	const handleDecline = () => {
-		onDecline({ ...ticket, status: 'Pending' });
-		onClose();
-	};
+	// const handleDecline = () => {
+	// 	onDecline({ ...ticket, status: 'Pending' });
+	// 	onClose();
+	// };
+// 	const handleDecline = () => {
+//   onDecline({
+//     ...ticket,
+//     status: 'Closed',
+//     actionDate,
+//     remarks,
+//   });
+//   onClose();
+// };
+
+// const handleAccept = async () => {
+//   await axiosClient.patch(`/tickets/${ticket.id}/status`, {
+//     status: 'In Progress',
+//     actionDate,
+//     remarks,
+//   });
+
+//   onAccept({
+//     ...ticket,
+//     status: 'In Progress',
+//   });
+
+//   onClose();
+// };
+
+// const handleDecline = async () => {
+//   await axiosClient.patch(`/tickets/${ticket.id}/status`, {
+//     status: 'Closed',
+//     actionDate,
+//     remarks,
+//   });
+
+//   onDecline({
+//     ...ticket,
+//     status: 'Closed',
+//   });
+
+//   onClose();
+// };
+const handleAccept = async () => {
+  if (!ticket) return;
+
+  try {
+    await axiosClient.patch(`/tickets/${ticket.id}/status`, {
+      status: "In Progress",
+    });
+
+    onAccept({ ...ticket, status: "In Progress" });
+    onClose();
+  } catch (err) {
+    console.error("Accept failed", err);
+  }
+};
+
+const handleDecline = async () => {
+  if (!ticket) return;
+
+  try {
+    await axiosClient.patch(`/tickets/${ticket.id}/status`, {
+      status: "Closed",
+    });
+
+    onDecline({ ...ticket, status: "Closed" });
+    onClose();
+  } catch (err) {
+    console.error("Decline failed", err);
+  }
+};
+
 
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4 py-6">

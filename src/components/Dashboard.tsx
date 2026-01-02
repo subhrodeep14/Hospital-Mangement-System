@@ -98,7 +98,7 @@ const Dashboard = ({ hospital, equipments, onAddTicket, onDepartmentClick }: any
   };
 
   return (
-    <div className="ml-[300px] p-4 bg-gray-100 min-h-screen">
+    <div className=" p-4 bg-gray-100 min-h-screen">
       <div className="mx-auto max-w-7xl">
 
         {/* HEADER */}

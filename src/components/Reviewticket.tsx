@@ -66,7 +66,7 @@ const Reviewticket: React.FC<ReviewticketProps> = ({ ticket, onUpdate, onApprove
   };
 
   return (
-    <div className="p-10 ml-[300px]">
+    <div className="p-10 ml-[300px] w-full">
       <div className="bg-white grid place-content-center shadow p-8 rounded-xl max-w-5xl mx-auto shadow-slate-950">
 
         <div className="flex justify-between items-center">

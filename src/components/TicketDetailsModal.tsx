@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { Ticket, Equipment, TicketComment } from '../types';
 import { TICKET_CATEGORIES } from '../constants/category';
+import { axiosClient } from '../api/axiosClient';
 
 import { 
   X, 
   User, 
-  Calendar, 
-  Tag, 
-  AlertTriangle, 
   MessageSquare, 
-  Send,
-  CheckCircle,
+
   Edit
 } from 'lucide-react';
 
@@ -32,14 +29,21 @@ const TicketDetailsModal: React.FC<TicketDetailsModalProps> = ({
 
   const [newComment, setNewComment] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  type TicketStatus = "Open" | "In Progress" | "Pending" | "Resolved" | "Closed";
+type TicketPriority = "Low" | "Medium" | "High" | "Critical";
 
-  // ⬅ Category added here
-  const [editData, setEditData] = useState({
-    status: ticket.status,
-    priority: ticket.priority,
-    category: ticket.category,
-    assignedTo: ticket.assignedTo || ''
-  });
+ 
+const [editData, setEditData] = useState<{
+  status: TicketStatus;
+  priority: TicketPriority;
+  category: string;
+  assignedTo: string | null;
+}>({
+  status: ticket.status,
+  priority: ticket.priority,
+  category: ticket.category,
+  assignedTo: ticket.assignedTo ?? null,
+});
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-IN', {
@@ -84,40 +88,78 @@ const TicketDetailsModal: React.FC<TicketDetailsModalProps> = ({
 
   const relatedEquipment = equipments.find(eq => eq.id === ticket.id);
 
+  // const handleAddComment = () => {
+  //   if (!newComment.trim()) return;
+
+  //   const comment: TicketComment = {
+  //     id: Date.now().toString(),
+  //     ticketId: ticket.id,
+  //     author: ticket.createdBy || 'Unknown',
+  //     content: newComment,
+  //     createdAt: new Date().toISOString(),
+  //     isInternal: false
+  //   };
+
+  //   onUpdate({
+  //     ...ticket,
+  //     comments: [...ticket.comments, comment],
+  //     updatedAt: new Date().toISOString()
+  //   });
+
+  //   setNewComment('');
+  // };
+  const comments = ticket.comments ?? [];
+
   const handleAddComment = () => {
-    if (!newComment.trim()) return;
+  if (!newComment.trim()) return;
 
-    const comment: TicketComment = {
-      id: Date.now().toString(),
-      ticketId: ticket.id,
-      author: 'Current User',
-      content: newComment,
-      createdAt: new Date().toISOString(),
-      isInternal: false
-    };
-
-    onUpdate({
-      ...ticket,
-      comments: [...ticket.comments, comment],
-      updatedAt: new Date().toISOString()
-    });
-
-    setNewComment('');
+  const comment: TicketComment = {
+    id: Date.now().toString(),
+    ticketId: ticket.id,
+    author: ticket.createdBy || 'Unknown',
+    content: newComment,
+    createdAt: new Date().toISOString(),
+    isInternal: false,
   };
 
-  const handleSaveChanges = () => {
-    onUpdate({
-      ...ticket,
-      ...editData,
-      updatedAt: new Date().toISOString(),
-      resolvedAt:
-        editData.status === 'Resolved' && ticket.status !== 'Resolved'
-          ? new Date().toISOString()
-          : ticket.resolvedAt
+  onUpdate({
+    ...ticket,
+    comments: [...comments, comment], // ✅ SAFE
+    updatedAt: new Date().toISOString(),
+  });
+
+  setNewComment('');
+};
+
+ 
+  const handleSaveChanges = async () => {
+  try {
+    const res = await axiosClient.patch(`/tickets/${ticket.id}`, {
+      status: editData.status,
+      priority: editData.priority,
+      category: editData.category,
+      assignedTo: editData.assignedTo,
     });
+
+    // 🔥 Update parent with DB response
+    onUpdate(res.data.ticket);
 
     setIsEditing(false);
-  };
+  } catch (error) {
+    console.error("Failed to update ticket", error);
+    alert("Failed to save changes");
+  }
+};
+
+useEffect(() => {
+  setEditData({
+    status: ticket.status,
+    priority: ticket.priority,
+    category: ticket.category,
+    assignedTo: ticket.assignedTo ?? null,
+  });
+}, [ticket]);
+
 
   const statuses: Ticket['status'][] = ['Open', 'In Progress', 'Pending', 'Resolved', 'Closed'];
   const priorities: Ticket['priority'][] = ['Low', 'Medium', 'High', 'Critical'];
@@ -194,10 +236,10 @@ const TicketDetailsModal: React.FC<TicketDetailsModalProps> = ({
             <div>
               <h4 className="font-semibold mb-4 flex items-center gap-2">
                 <MessageSquare className="w-5 h-5" />
-                Comments ({ticket.comments.length})
+                Comments ({comments.length})
               </h4>
 
-              {ticket.comments.map(comment => (
+              {comments.map(comment => (
                 <div
                   key={comment.id}
                   className={`p-4 rounded-lg mb-4 ${
@@ -260,7 +302,7 @@ const TicketDetailsModal: React.FC<TicketDetailsModalProps> = ({
                   <label>Status</label>
                   <select
                     value={editData.status}
-                    onChange={(e) => setEditData(prev => ({ ...prev, status: e.target.value }))}
+                    onChange={(e) => setEditData(prev => ({ ...prev, status: e.target.value as TicketStatus }))}
                     className="w-full p-2 border rounded-lg"
                   >
                     {statuses.map(s => <option key={s}>{s}</option>)}
@@ -272,7 +314,7 @@ const TicketDetailsModal: React.FC<TicketDetailsModalProps> = ({
                   <label>Priority</label>
                   <select
                     value={editData.priority}
-                    onChange={(e) => setEditData(prev => ({ ...prev, priority: e.target.value }))}
+                    onChange={(e) => setEditData(prev => ({ ...prev, priority: e.target.value as TicketPriority }))}
                     className="w-full p-2 border rounded-lg"
                   >
                     {priorities.map(p => <option key={p}>{p}</option>)}
@@ -295,9 +337,9 @@ const TicketDetailsModal: React.FC<TicketDetailsModalProps> = ({
 
                 {/* ASSIGN TO */}
                 <div>
-                  <label>Assign To</label>
+                  <label>Assign To</label> 
                   <select
-                    value={editData.assignedTo}
+                    value={editData.assignedTo ?? ""}
                     onChange={(e) => setEditData(prev => ({ ...prev, assignedTo: e.target.value }))}
                     className="w-full p-2 border rounded-lg"
                   >

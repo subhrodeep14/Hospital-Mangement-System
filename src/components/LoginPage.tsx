@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
 import neotiaLogo from '../assets/neotia-logo.png';
 import { axiosClient } from '../api/axiosClient';
-
+import { useNavigate } from "react-router-dom";
 interface LoginPageProps {
   onLogin: (user: any) => void;  // updated: backend returns user object
 }
@@ -13,7 +13,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     email: "", // backend expects email, not username
     password: "",
   });
-
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -143,11 +143,24 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               {isLoading ? "Signing in..." : "Sign In"}
             </button>
           </form>
+           <div className="mt-6 text-center">
+      <p className="text-sm text-gray-600">
+        Don’t have an account?
+      </p>
+
+      <button
+        type="button"
+        onClick={() => navigate("/register")}
+        className="mt-2 w-full py-2 rounded-lg border border-indigo-600 text-indigo-600 font-medium hover:bg-indigo-50 transition"
+      >
+        Create an account
+      </button>
+    </div>
         </div>
 
         <div className="text-center mt-8">
           <p className="text-sm text-gray-500">
-            © 2025 Neotia Getwel Multispecialty Hospital. All rights reserved.
+            © 2026 Neotia Getwel Multispecialty Hospital. All rights reserved.
           </p>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Ticket, Equipment } from '../types';
 import { TICKET_CATEGORIES } from '../constants/category';
 import {
@@ -17,16 +17,15 @@ import {
 
 import AddTicketModal from './AddTicketModal';
 import TicketDetailsModal from './TicketDetailsModal';
-import { axiosClient } from '../api/axiosClient';
+
 
 interface TicketManagementProps {
 	tickets: Ticket[];
 	equipments: Equipment[];
-	onAddTicket: {handleAddTicket};
+	onAddTicket: (ticket: Ticket) => void | Promise<void>;
 	onUpdateTicket: (ticket: Ticket) => void;
 	onSlip: (ticket: Ticket) => void;
 }
-
 
 
 const statusOptions = ['all', 'Open', 'In Progress', 'Pending', 'Resolved', 'Closed'];
@@ -55,13 +54,12 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 	const [showAddModal, setShowAddModal] = useState(false);
 	const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 	const [showDetailsModal, setShowDetailsModal] = useState(false);
-
+	
 	const filteredTickets = useMemo(() => {
 		return tickets.filter((ticket) => {
 			const matchesSearch =
 				ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				ticket.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				ticket.createdBy.toLowerCase().includes(searchTerm.toLowerCase());
+				ticket.description.toLowerCase().includes(searchTerm.toLowerCase()) ;
 
 			const matchesStatus = statusFilter === 'all' || ticket.status === statusFilter;
 			const matchesPriority = priorityFilter === 'all' || ticket.priority === priorityFilter;
@@ -112,7 +110,8 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 				return 'bg-blue-500';
 			case 'In Progress':
 				return 'bg-purple-500';
-			case 'Pending':
+			case 'pending':
+				return 'bg-yellow-500';
 			case 'Review Pending':
 				return 'bg-yellow-500';
 			case 'Resolved':
@@ -123,7 +122,6 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 				return 'bg-gray-400';
 		}
 	};
-
 	const getStatusColor = (status: string) => {
 		switch (status) {
 			case 'Open':
@@ -183,11 +181,11 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 			onClick: () => setStatusFilter('Resolved'),
 		},
 		{
-			title: 'Critical',
-			value: tickets.filter((t) => t.priority === 'Critical').length,
+			title: 'Closed',
+			value: tickets.filter((t) => t.status === 'Closed').length,
 			accent: 'from-rose-500 to-pink-600',
 			icon: <AlertTriangle className="w-6 h-6 text-white" />,
-			onClick: () => setPriorityFilter('Critical'),
+			onClick: () => setStatusFilter('Closed'),
 		},
 	];
 
@@ -195,6 +193,11 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 		setSelectedTicket(ticket);
 		setShowDetailsModal(Boolean(ticket));
 	};
+
+
+
+
+
 
 	const activeFilters = [
 		statusFilter !== 'all' && { label: `Status: ${statusFilter}`, tone: 'blue' as FilterTone },
@@ -204,7 +207,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 	].filter(Boolean) as { label: string; tone: FilterTone }[];
 
 	return (
-		<div className="min-h-screen ml-[300px] bg-gradient-to-b text-md from-slate-50 to-white py-10">
+		<div className="min-h-screen  bg-gradient-to-b text-md from-slate-50 to-white py-10">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="bg-white rounded-2xl shadow-sm  p-6 mb-2 border-2 border-blue-100 ring-1 ring-blue-100">
 					<div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between ">
@@ -438,7 +441,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 												<p className="text-sm text-slate-500 mt-1 line-clamp-2">{ticket.description}</p>
 												<div className="flex items-center gap-2 text-xs text-slate-400 mt-2">
 													<User className="w-4 h-4" />
-													<span>{ticket.createdBy}</span>
+												
 													<span className="text-slate-300">•</span>
 													<span>{ticket.department}</span>
 												</div>
@@ -536,7 +539,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({
 					/>
 				)}
 			</div>
-		</div>
+		</div> 
 	);
 };
 
