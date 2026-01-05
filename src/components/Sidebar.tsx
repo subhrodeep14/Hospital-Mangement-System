@@ -4,7 +4,6 @@ import {
   Package,
   Settings,
   Ticket,
-  FileText,
   LogOut,
 } from "lucide-react";
 import orangePlus from "../assets/images - Logo 3.png";
@@ -21,7 +20,7 @@ const Sidebar = ({ onLogout }: { onLogout: () => void }) => {
 
   const menuItems = [
     { key: "dashboard", label: "Dashboard", icon: Home },
-    { key: "equipment", label: "Equipment", icon: Package },
+    { key: "equipments", label: "Equipment", icon: Package },
     { key: "tickets", label: "Tickets", icon: Ticket },
   //  { key: "review", label: "Review Ticket", icon: FileText },
     { key: "settings", label: "Settings", icon: Settings },

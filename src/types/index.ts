@@ -59,6 +59,7 @@ export interface Ticket {
   priority: 'Low' | 'Medium' | 'High' | 'Critical';
   status: 'Open' | 'In Progress' | 'Pending' | 'Resolved' | 'Closed' ;
   Floor ?: string;
+  unitId ?: number;
   Room ?: string;
   Bed ?: string;
   assignedTo?: string;

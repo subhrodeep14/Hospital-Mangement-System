@@ -94,8 +94,8 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen scroll">
-      <div className="max-w-7xl mx-auto">
+    <div className="p-8 bg-gray-50 min-w-full min-h-screen scroll">
+      <div className="min-w-full mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
