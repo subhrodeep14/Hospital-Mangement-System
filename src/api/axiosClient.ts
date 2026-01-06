@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const axiosClient = axios.create({
-  baseURL:  import.meta.env.URL,
-  withCredentials: true, // VERY IMPORTANT for cookies
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
 });
+
