@@ -119,18 +119,31 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
   totalValue: 0,
 });
 
+// useEffect(() => {
+//   const unitId = equipments[0]?.unitId;
+//   if (!unitId) return;
+
+//   fetch(`api/equipments/stats?unitId=${unitId}`, {
+//     credentials: "include",
+//   })
+//     .then(res => res.json())
+//     .then(setEquipmentStats)
+//     .catch(console.error);
+// }, [equipments]);
 useEffect(() => {
   const unitId = equipments[0]?.unitId;
   if (!unitId) return;
 
-  fetch(`http://localhost:4000/api/equipments/stats?unitId=${unitId}`, {
+  fetch(`api/equipments/stats?unitId=${unitId}`, {
     credentials: "include",
   })
     .then(res => res.json())
     .then(setEquipmentStats)
     .catch(console.error);
-}, [equipments]);
-  const statCards = [
+}, [equipments]); 
+
+
+const statCards = [
   {
     title: "Total Equipment",
     value: equipmentStats.total,

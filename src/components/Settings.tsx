@@ -479,7 +479,7 @@ const Settings: React.FC = () => {
 
           <div className="p-8">
             {/* PROFILE */}
-            {activeTab === "profile" && (
+            {/* {activeTab === "profile" && (
               <div className="space-y-6">
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
                   Administrator Profile
@@ -514,7 +514,7 @@ const Settings: React.FC = () => {
                   Save Changes
                 </button>
               </div>
-            )}
+            )} */}
 
             {/* NOTIFICATIONS */}
             {activeTab === "notifications" && (
@@ -585,7 +585,7 @@ const Settings: React.FC = () => {
             )}
 
             {/* SYSTEM */}
-            {activeTab === "system" && (
+            {/* {activeTab === "system" && (
               <div className="space-y-4">
                 <input
                   value={system.hospitalName}
@@ -619,7 +619,7 @@ const Settings: React.FC = () => {
                   Save System Settings
                 </button>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
