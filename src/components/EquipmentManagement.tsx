@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import AddEquipmentModal from './AddEquipmentModal';
 import ShowEquipmentModal from './ShowEquipmentModal';
+import { axiosClient } from '../api/axiosClient';
 
 interface EquipmentManagementProps {
   equipments: Equipment[];
@@ -130,18 +131,32 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
 //     .then(setEquipmentStats)
 //     .catch(console.error);
 // }, [equipments]);
+// useEffect(() => {
+//   const unitId = equipments[0]?.unitId;
+//   if (!unitId) return;
+
+//   fetch(`api/equipments/stats?unitId=${unitId}`, {
+//     credentials: "include",
+//   })
+//     .then(res => res.json())
+//     .then(setEquipmentStats)
+//     .catch(console.error);
+// }, [equipments]); 
 useEffect(() => {
   const unitId = equipments[0]?.unitId;
   if (!unitId) return;
 
-  fetch(`api/equipments/stats?unitId=${unitId}`, {
-    credentials: "include",
-  })
-    .then(res => res.json())
-    .then(setEquipmentStats)
-    .catch(console.error);
-}, [equipments]); 
-
+  axiosClient
+    .get("/equipments/stats", {
+      params: { unitId },
+    })
+    .then(res => {
+      setEquipmentStats(res.data);
+    })
+    .catch(err => {
+      console.error("Stats fetch failed:", err);
+    });
+}, [equipments]);
 
 const statCards = [
   {
@@ -210,7 +225,7 @@ const statCards = [
 
         <section className="pt-2">
 						<div className="rounded-2xl border-2 border-blue-100 bg-white/80 p-2 shadow-sm">
-							<div className="grid grid-cols-1 bg-blue-400 gap-10 p-4  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+							<div className="grid grid-cols-1 gap-10 p-4  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
 								{statCards.map((card) => (
 									<button
 										key={card.title}
