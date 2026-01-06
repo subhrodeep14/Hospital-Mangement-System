@@ -1,6 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Equipment } from '../types';
-import { Plus, Search, Filter, Edit, Trash2, Eye, Package } from 'lucide-react';
+//import { Plus, Search, Filter, Edit, Trash2, Eye, Package, AlertTriangle, Wrench, Wrench, CheckCircle, CheckCircle } from 'lucide-react';
+import {
+  Plus,
+  Search,
+  Filter,
+  Edit,
+  Trash2,
+  Eye,
+  Package,
+  AlertTriangle,
+  Wrench,
+  CheckCircle,
+} from "lucide-react";
 import AddEquipmentModal from './AddEquipmentModal';
 import ShowEquipmentModal from './ShowEquipmentModal';
 
@@ -93,9 +105,62 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
     handleModalClose();
   };
 
+  useEffect(() => {
+    if (!showAddModal) {
+      setEditingEquipment(null);
+    }
+  }, [showAddModal]);
+
+  const [equipmentStats, setEquipmentStats] = useState({
+  total: 0,
+  active: 0,
+  maintenance: 0,
+  outOfOrder: 0,
+  totalValue: 0,
+});
+
+useEffect(() => {
+  const unitId = equipments[0]?.unitId;
+  if (!unitId) return;
+
+  fetch(`http://localhost:4000/api/equipments/stats?unitId=${unitId}`, {
+    credentials: "include",
+  })
+    .then(res => res.json())
+    .then(setEquipmentStats)
+    .catch(console.error);
+}, [equipments]);
+  const statCards = [
+  {
+    title: "Total Equipment",
+    value: equipmentStats.total,
+    icon: <Package className="w-6 h-6 text-blue-600" />,
+    accent: "from-blue-500 to-blue-400",
+  },
+  {
+    title: "Active Equipment",
+    value: equipmentStats.active,
+    icon: <CheckCircle className="w-6 h-6 text-green-600" />,
+    accent: "from-green-500 to-green-400",
+  },
+  {
+    title: "Under Maintenance",
+    value: equipmentStats.maintenance,
+    icon: <Wrench className="w-6 h-6 text-yellow-600" />,
+    accent: "from-yellow-500 to-yellow-400",
+  },
+  {
+    title: "Out of Order",
+    value: equipmentStats.outOfOrder,
+    icon: <AlertTriangle className="w-6 h-6 text-red-600" />,
+    accent: "from-red-500 to-red-400",
+  },
+];
+
+  //  
   return (
-    <div className="p-8 bg-gray-50 min-w-full min-h-screen scroll">
-      <div className="min-w-full mx-auto">
+    <div className="min-h-screen bg-gradient-to-b text-md from-slate-100 to-white py-10 px-10">
+      <div className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-14">
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -126,7 +191,34 @@ const EquipmentManagement: React.FC<EquipmentManagementProps> = ({
             <Plus className="w-5 h-5" />
             Add Equipment
           </button>
+          
         </div>
+       
+
+        <section className="pt-2">
+						<div className="rounded-2xl border-2 border-blue-100 bg-white/80 p-2 shadow-sm">
+							<div className="grid grid-cols-1 bg-blue-400 gap-10 p-4  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+								{statCards.map((card) => (
+									<button
+										key={card.title}
+									
+										className="w-full rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-200 group text-left relative"
+									>
+										<div className="p-5 flex items-start justify-between">
+											<div>
+												<p className="text-slate-500 text-sm">{card.title}</p>
+												<p className="text-3xl font-bold text-slate-900 mt-1">{card.value}</p>
+											</div>
+											<div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.accent} flex items-center justify-center shadow-inner`}>
+												{card.icon}
+											</div>
+										</div>
+										<div className="absolute inset-x-3 bottom-3 h-1 rounded-full bg-gradient-to-r from-blue-100 to-transparent opacity-0 group-hover:opacity-100 transition" />
+									</button>
+								))}
+							</div>
+						</div>
+					</section>
 
         {/* Department Filter Alert */}
         {departmentFilter && (

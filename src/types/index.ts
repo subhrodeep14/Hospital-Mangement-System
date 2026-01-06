@@ -13,6 +13,7 @@ export interface Equipment {
   nextMaintenance: string;
   cost: number;
   taxRate?: number;
+  unitId: number;
 }
 
 export interface User {

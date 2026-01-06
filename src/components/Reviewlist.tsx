@@ -20,11 +20,11 @@ const statusStyles: Record<Ticket["status"], string> = {
   Pending: "bg-slate-200 text-slate-900",
   Resolved: "bg-emerald-200 text-emerald-900",
   Closed: "bg-gray-200 text-gray-900",
-  "Review Pending": "bg-amber-200 text-amber-900",
+
 };
 
 const ReviewList: React.FC<ReviewListProps> = ({ tickets, onSelect }) => {
-  const pending = tickets.filter((ticket) => ticket.status === "Review Pending");
+  const pending = tickets.filter((ticket) => ticket.status === "Pending");
   const criticalCount = tickets.filter((ticket) => ticket.priority === "Critical").length;
   const highCount = tickets.filter((ticket) => ticket.priority === "High").length;
   const oldest = tickets.reduce<Ticket | null>((currentOldest, next) => {

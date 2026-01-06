@@ -19,10 +19,11 @@ const Sidebar = ({ onLogout }: { onLogout: () => void }) => {
   const safeUnitId = unitId ?? "0";
 
   const menuItems = [
-    { key: "dashboard", label: "Dashboard", icon: Home },
-    { key: "equipments", label: "Equipment", icon: Package },
-    { key: "tickets", label: "Tickets", icon: Ticket },
-  //  { key: "review", label: "Review Ticket", icon: FileText },
+    // { key: "dashboard", label: "Dashboard", icon: Home },
+   
+    { key: "tickets", label: "Dashboard", icon: Home },
+    // { key: "review", label: "Review Ticket", icon: Ticket },
+     { key: "equipments", label: "Equipment", icon: Package },
     { key: "settings", label: "Settings", icon: Settings },
   ];
 

@@ -186,12 +186,12 @@ useEffect(() => {
             <span className="text-sm text-gray-500">#{ticket.id}</span>
           </div>
 
-          <button
+          {/* <button
             onClick={() => setIsEditing(!isEditing)}
             className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
           >
             <Edit className="w-5 h-5" />
-          </button>
+          </button> */}
 
           <button
             onClick={onClose}

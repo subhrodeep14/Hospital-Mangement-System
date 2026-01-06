@@ -11,18 +11,19 @@ import {
 
 import LoginPage from "./components/LoginPage";
 import Sidebar from "./components/Sidebar";
-import Dashboard from "./components/Dashboard";
+//import Dashboard from "./components/Dashboard";
 
 import TicketManagement from "./components/TicketManagement";
 import Settings from "./components/Settings";
 
 import SelectUnitPage from "./components/SelectUnitPage";
 
-import { mockEquipments, hospitalInfo} from "./data/mockData";
+
 
 import Register from "./components/Register";
 import EquipmentPage from "./components/EquipmentPage";
-import AdminRoute from "./components/AdminRoute";
+import Reviewticket from "./components/Reviewticket";
+
 
 /* -------------------------------- Protected Route --------------------------- */
 function ProtectedRoute({
@@ -55,7 +56,6 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loggedUser, setLoggedUser] = useState<any>(null);
 
-  const [equipments] = useState(mockEquipments);
 
 
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ function App() {
       return;
     }
 
-    navigate(`/unit/${user.unitId}/dashboard`);
+    navigate(`/unit/${user.unitId}/tickets`);
   };
 
   /* ------------------------------ LOGOUT ------------------------------ */
@@ -113,7 +113,7 @@ function App() {
       </ProtectedRoute>
     }
   >
-    <Route
+    {/* <Route
       path="dashboard"
       element={
         <Dashboard
@@ -121,7 +121,7 @@ function App() {
           equipments={equipments}
         />
       }
-    />
+    /> */}
 
     {/* ✅ ADMIN ONLY */}
     <Route
@@ -135,6 +135,11 @@ function App() {
       path="tickets"
       element={<TicketManagement />}
     />
+    
+    {/* <Route
+      path="review-tickets"
+      element={<Reviewticket />}
+    /> */}
 
     <Route path="settings" element={<Settings />} />
     
