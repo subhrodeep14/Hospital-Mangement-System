@@ -1,290 +1,136 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Equipment, Ticket, User } from '../types';
-import { X, CalendarClock, Building2, User2, FileText } from 'lucide-react';
-import { axiosClient } from '../api/axiosClient';
+import React from "react";
+import { Calendar, AlertTriangle, Users, ArrowRightCircle } from "lucide-react";
+import { Ticket } from "../types";
 
-interface ServiceSlipProps {
-	ticket: Ticket | null;
-	onClose: () => void;
-	onAccept: (updated: Ticket) => void;
-	onDecline: (updated: Ticket) => void;
-}
 
-const FALLBACK_UNIT = 'NGHC – SILIGURI';
-// service status pill styles
-const statusPill = (status: string) => {
-	switch (status) {
-		case 'Resolved':
-			return 'bg-emerald-100 text-emerald-700 border border-emerald-200';
-		case 'In Progress':
-			return 'bg-blue-100 text-blue-700 border border-blue-200';
-		case 'Pending':
-		case 'Review Pending':
-			return 'bg-amber-100 text-amber-700 border border-amber-200';
-		case 'Closed':
-			return 'bg-slate-100 text-slate-600 border border-slate-200';
-		default:
-			return 'bg-rose-100 text-rose-700 border border-rose-200';
-	}
+
+const priorityStyles: Record<Ticket["priority"], string> = {
+  Low: "bg-emerald-100 text-emerald-800",
+  Medium: "bg-amber-100 text-amber-800",
+  High: "bg-orange-100 text-orange-800",
+  Critical: "bg-rose-100 text-rose-800",
 };
 
-const ServiceSlip: React.FC<ServiceSlipProps> = ({ ticket, onClose, onAccept, onDecline }) => {
-	const [actionDate, setActionDate] = useState(() => new Date().toISOString().slice(0, 16));
-	const [remarks, setRemarks] = useState('');
-	const [showAssignSection, setShowAssignSection] = useState(false);
-const [users, setUsers] = useState<User[]>([]);
-const [equipments, setEquipments] = useState<Equipment[]>([]);
+const statusStyles: Record<Ticket["status"], string> = {
+  Open: "bg-sky-200 text-sky-900",
+  "In Progress": "bg-indigo-200 text-indigo-900",
+  Pending: "bg-slate-200 text-slate-900",
+  Resolved: "bg-emerald-200 text-emerald-900",
+  Closed: "bg-gray-200 text-gray-900",
 
-const [assignedToId, setAssignedToId] = useState<number | null>(null);
-const [equipmentNote, setEquipmentNote] = useState("");
-const [requiredEquipmentIds, setRequiredEquipmentIds] = useState<number[]>([]);
-	
-	const postedDate = useMemo(() => {
-		if (!ticket?.createdAt) return '—';
-		return new Date(ticket.createdAt).toLocaleString('en-IN', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-			hour: '2-digit',
-			minute: '2-digit',
-		});
-	}, [ticket?.createdAt]);
-
-	if (!ticket) return null;
-const [currentUser, setCurrentUser] = useState<{
-  id: number;
-  role: "admin" | "employee";
-  unitId: number | null;
-} | null>(null);
-
-useEffect(() => {
-  axiosClient
-    .get("/auth/me")
-    .then((res) => setCurrentUser(res.data.user))
-    .catch(() => setCurrentUser(null));
-}, []);
-
-	
-
-const handleAccept = async () => {
-  if (!ticket) return;
-
-  try {
-    await axiosClient.patch(`/tickets/${ticket.id}/status`, {
-      status: "In Progress",
-    });
-	setShowAssignSection(true);
-   // onAccept({ ...ticket, status: "In Progress" });
-   // onClose();
-  } catch (err) {
-    console.error("Accept failed", err);
-  }
 };
 
-const handleDecline = async () => {
-  if (!ticket) return;
+const ReviewList = () => {
+  const pending = tickets.filter((ticket) => ticket.status === "Pending");
+  const criticalCount = tickets.filter((ticket) => ticket.priority === "Critical").length;
+  const highCount = tickets.filter((ticket) => ticket.priority === "High").length;
+  const oldest = tickets.reduce<Ticket | null>((currentOldest, next) => {
+    if (!currentOldest) return next;
+    return new Date(next.createdAt) < new Date(currentOldest.createdAt) ? next : currentOldest;
+  }, null);
+  const sortedTickets = [...tickets].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 
-  try {
-    await axiosClient.patch(`/tickets/${ticket.id}/status`, {
-      status: "Closed",
-    });
-
-    onDecline({ ...ticket, status: "Closed" });
-    onClose();
-  } catch (err) {
-    console.error("Decline failed", err);
-  }
-};
-useEffect(() => {
-  if (!showAssignSection) return;
-  if (currentUser?.role !== "admin") return;
-  if (!currentUser.unitId) return;
-
-  axiosClient
-    .get("/users", { params: { unitId: currentUser.unitId } })
-    .then((res) => setUsers(res.data.users));
-
-  axiosClient
-    .get("/equipments", { params: { unitId: currentUser.unitId } })
-    .then((res) => setEquipments(res.data.equipments));
-}, [showAssignSection, currentUser]);
-
-const handleAssign = async () => {
-  if (!ticket || !assignedToId) {
-    alert("Please select an employee");
-    return;
-  }
-
-  try {
-    const res = await axiosClient.post(
-      `/tickets/${ticket.id}/assign`,
-      {
-        assignedToId,
-        requiredEquipmentIds,
-        equipmentNote,
-      }
+  if (tickets.length === 0) {
+    return (
+      <div className="min-h-screen ml-[300px] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-6">
+        <div className=" max-w-7xl rounded-3xl border border-white/10 bg-white/5 p-10 text-center backdrop-blur shadow-2xl">
+          <AlertTriangle className="mx-auto mb-6 h-14 w-14 text-white" />
+          <h1 className="text-3xl font-semibold text-white">Nothing waiting</h1>
+          <p className="mt-3 text-slate-300">
+            No tickets are pending review. New submissions will instantly appear here when ready.
+          </p>
+        </div>
+      </div>
     );
-
-    // update parent state
-    onAccept(res.data.ticket);
-
-    // reset assign UI
-    setShowAssignSection(false);
-    setAssignedToId(null);
-    setRequiredEquipmentIds([]);
-    setEquipmentNote("");
-  } catch (err) {
-    console.error("Assignment failed", err);
-    alert("Failed to assign work");
   }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 py-12">
+      <div className="flex w-full flex-col gap-12 px-6 sm:px-10 lg:px-16">
+        <header className="space-y-3">
+          <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Review desk</p>
+          <div className="flex flex-col gap-1 text-white">
+            <h1 className="text-4xl font-semibold">All Service Tickets</h1>
+            <p className="text-slate-300">{tickets.length} ticket{tickets.length === 1 ? "" : "s"} generated. {pending.length} still awaiting review.</p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-white">
+              <p className="text-sm text-slate-300">Critical</p>
+              <p className="text-3xl font-semibold">{criticalCount}</p>
+              <p className="text-xs text-slate-400">Need immediate response</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-white">
+              <p className="text-sm text-slate-300">High priority</p>
+              <p className="text-3xl font-semibold">{highCount}</p>
+              <p className="text-xs text-slate-400">At risk of escalation</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-white">
+              <p className="text-sm text-slate-300">Oldest ticket</p>
+              <p className="text-lg font-semibold leading-tight">{oldest?.title ?? ""}</p>
+              <p className="text-xs text-slate-400">Since {oldest ? new Date(oldest.createdAt).toLocaleDateString() : "-"}</p>
+            </div>
+          </div>
+        </header>
+
+        <div className="grid gap-6">
+          {sortedTickets.map((ticket) => (
+            <button
+              key={ticket.id}
+              onClick={() => onSelect(ticket)}
+              className="group w-full rounded-[32px] border border-white/10 bg-white/5 p-8 text-left text-white shadow-xl transition hover:bg-white/10 hover:shadow-2xl"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-4 text-sm">
+                <span className={`rounded-full px-3 py-1 font-semibold ${priorityStyles[ticket.priority]}`}>
+                  {ticket.priority}
+                </span>
+                <span className={`rounded-full px-3 py-1 font-semibold ${statusStyles[ticket.status]}`}>
+                  {ticket.status}
+                </span>
+                <span className="flex items-center gap-2 text-slate-300">
+                  <Calendar className="h-4 w-4" />
+                  {new Date(ticket.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+
+              <h2 className="mt-5 text-2xl font-semibold leading-tight">{ticket.title}</h2>
+              <p className="mt-3 max-h-32 overflow-auto text-slate-200">{ticket.description}</p>
+
+              <div className="mt-6 flex flex-wrap gap-6 text-slate-200">
+                <span className="flex items-center gap-2">
+                  <Users className="h-4 w-4" />
+                  {ticket.department}
+                </span>
+                <span className="flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4" />
+                  {ticket.category}
+                </span>
+                {ticket.assignedTo && (
+                  <span className="flex items-center gap-2">
+                    <Users className="h-4 w-4" />
+                    Assigned to {ticket.assignedTo}
+                  </span>
+                )}
+              </div>
+
+              <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Raised by</p>
+                  <p className="text-lg font-medium text-white">{ticket.createdBy}</p>
+                </div>
+                <span className="inline-flex items-center gap-2 text-emerald-300 font-semibold">
+                  Review now
+                  <ArrowRightCircle className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };
 
-
-
-	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4 py-6">
-			<div className="w-full max-w-4xl rounded-3xl bg-white shadow-2xl">
-				<div className="flex items-center justify-between border-b border-slate-100 px-8 py-6">
-					<div>
-						<p className="text-sm uppercase tracking-[0.3em] text-slate-400">Service Call Slip</p>
-						<h2 className="text-2xl font-semibold text-slate-900 mt-1">Ticket #{ticket.id}</h2>
-					</div>
-					<button
-						onClick={onClose}
-						className="rounded-full border border-slate-200 p-2 text-slate-500 hover:bg-slate-50"
-						aria-label="Close"
-					>
-						<X className="h-5 w-5" />
-					</button>
-				</div>
-
-				<div className="px-8 py-6 space-y-6">
-					<div className="grid gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-4 text-sm text-slate-700 md:grid-cols-2">
-						<div className="flex items-center gap-3">
-							<FileText className="h-4 w-4 text-slate-400" />
-							<span>
-								<strong className="text-slate-900">Ticket Number :</strong> #{ticket.id}
-							</span>
-						</div>
-						<div className="flex items-center gap-3">
-							<Building2 className="h-4 w-4 text-slate-400" />
-							<span>
-								<strong className="text-slate-900">Unit Name :</strong> {ticket.department || FALLBACK_UNIT}
-							</span>
-						</div>
-					</div>
-
-					<div className="grid gap-6 text-sm text-slate-700 md:grid-cols-2">
-						<div className="space-y-3">
-							<p>
-								<strong className="text-slate-900">Posted Date:</strong> {postedDate}
-							</p>
-							<p>
-								<strong className="text-slate-900">Description:</strong> {ticket.description || 'No description provided.'}
-							</p>
-							<p>
-								<strong className="text-slate-900">Room No:</strong> {ticket.assignedTo ? `${ticket.assignedTo.split(' ')[0]} Bay` : 'N/A'}
-							</p>
-							<p>
-								<strong className="text-slate-900">Accepted or Declined By:</strong> {ticket.assignedTo || 'Unassigned'}
-							</p>
-						</div>
-
-						<div className="space-y-3">
-							<p className="text-rose-600 font-semibold">
-								<strong className="text-slate-900">Service Request For:</strong> {ticket.title}
-							</p>
-							<p>
-								<strong className="text-slate-900">Department:</strong> {ticket.department}
-							</p>
-							<p>
-								<strong className="text-slate-900">Bed No:</strong> N/A
-							</p>
-							<p>
-								<strong className="text-slate-900">Remarks:</strong> {remarks || '—'}
-							</p>
-						</div>
-					</div>
-
-					<div className="grid gap-4 rounded-2xl border border-slate-100 p-4 text-sm text-slate-700 md:grid-cols-3">
-						<p>
-							<strong className="text-slate-900">Requested by:</strong> {ticket.createdBy}
-						</p>
-						<p>
-							<strong className="text-slate-900">Floor No:</strong> L2
-						</p>
-						<div className="flex items-center gap-2">
-							<strong className="text-slate-900">Call Status:</strong>
-							<span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusPill(ticket.status)}`}>
-								{ticket.status}
-							</span>
-						</div>
-					</div>
-
-					<div className="grid gap-4 md:grid-cols-[1fr,1fr]">
-						<label className="flex flex-col gap-2 text-sm text-slate-700">
-							<span className="font-semibold text-slate-900">Date & Time of Accept/Decline</span>
-							<div className="flex items-center gap-3 rounded-2xl border border-slate-200 px-4 py-2">
-								<CalendarClock className="h-5 w-5 text-slate-400" />
-								<input
-									type="datetime-local"
-									value={actionDate}
-									onChange={(e) => setActionDate(e.target.value)}
-									className="flex-1 bg-transparent text-slate-900 focus:outline-none"
-								/>
-							</div>
-						</label>
-
-						<label className="flex flex-col gap-2 text-sm text-slate-700">
-							<span className="font-semibold text-slate-900">Remarks</span>
-							<textarea
-								value={remarks}
-								onChange={(e) => setRemarks(e.target.value)}
-								rows={3}
-								className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-blue-400 focus:outline-none"
-								placeholder="Add any notes for the engineer"
-							/>
-						</label>
-					</div>
-				</div>
-
-				<div className="flex flex-col gap-3 border-t border-slate-100 px-8 py-6 md:flex-row md:items-center md:justify-end">
-					<div className="flex flex-1 flex-wrap items-center gap-3 text-sm text-slate-500 md:justify-start">
-						<div className="inline-flex items-center gap-2">
-							<User2 className="h-4 w-4 text-slate-400" />
-							<span>Logged by {ticket.createdBy}</span>
-						</div>
-						<div className="inline-flex items-center gap-2">
-							<FileText className="h-4 w-4 text-slate-400" />
-							<span>Category: {ticket.category}</span>
-						</div>
-					</div>
-
-					<div className="flex flex-wrap justify-end gap-3">
-						<button
-							onClick={handleAccept}
-							className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500"
-						>
-							Accept
-						</button>
-						<button
-							onClick={handleDecline}
-							className="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-white px-6 py-2.5 text-sm font-semibold text-rose-600 hover:bg-rose-50"
-						>
-							Decline
-						</button>
-						<button
-							onClick={onClose}
-							className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50"
-						>
-							Close
-						</button>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	);
-};
-
-export default ServiceSlip;
+export default ReviewList;

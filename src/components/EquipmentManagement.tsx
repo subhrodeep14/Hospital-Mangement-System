@@ -225,15 +225,15 @@ const statCards = [
 
         <section className="pt-2">
 						<div className="rounded-2xl border-2 border-blue-100 bg-white/80 p-2 shadow-sm">
-							<div className="grid grid-cols-1 gap-10 p-4  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+							<div className=" flex-cols-1 gap-10 p-8   flex  sm:flex-cols-2 lg:flex-cols-3 xl:grid-cols-6">
 								{statCards.map((card) => (
 									<button
 										key={card.title}
 									
 										className="w-full rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-200 group text-left relative"
 									>
-										<div className="p-5 flex items-start justify-between">
-											<div>
+										<div className="  p-4 flex items-start justify-between">
+											<div className=''>
 												<p className="text-slate-500 text-sm">{card.title}</p>
 												<p className="text-3xl font-bold text-slate-900 mt-1">{card.value}</p>
 											</div>

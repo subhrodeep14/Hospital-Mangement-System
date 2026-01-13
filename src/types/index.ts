@@ -56,7 +56,7 @@ export interface Ticket {
   id: string;
   title: string;
   description: string;
-  category: 'Technical Issue' | 'Software Request' | 'Access Request' | 'Equipment Issue' | 'Maintenance Request' | 'Biomedical Request' | 'Other';
+  category: string;
   priority: 'Low' | 'Medium' | 'High' | 'Critical';
   status: 'Open' | 'In Progress' | 'Pending' | 'Resolved' | 'Closed' ;
   Floor ?: string;
@@ -64,6 +64,8 @@ export interface Ticket {
   Room ?: string;
   Bed ?: string;
   assignedTo?: string;
+  assignedToName?: string;
+  comment?: string;
   createdAt: string;
   updatedAt: string;
   resolvedAt?: string;

@@ -35,13 +35,17 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const categories: Ticket['category'][] = [
-    'Technical Issue',
-    'Software Request', 
-    'Access Request',
-    'Equipment Issue',
-    'Maintenance Request',
-    'Biomedical Request',
-    'Other'
+    // 'Technical Issue',
+    // 'Software Request', 
+    // 'Access Request',
+    // 'Equipment Issue',
+    // 'Maintenance Request',
+    // 'Biomedical Request',
+    // 'Other'
+    'Information Technology',
+    'Maintenance',
+    'Biomedical',
+    'Project'
   ];
 
   const priorities: Ticket['priority'][] = ['Low', 'Medium', 'High', 'Critical'];
@@ -177,7 +181,7 @@ onClose();
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Add Call Department *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">To Department *</label>
               <div className="relative">
                 <Tag className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <select
@@ -228,7 +232,7 @@ onClose();
             </div> */}
 
             {/* Department */}
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Department *</label>
               <select
                 value={formData.department}
@@ -242,7 +246,7 @@ onClose();
                   <option key={dept} value={dept}>{dept}</option>
                 ))}
               </select>
-            </div>
+            </div> */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Floor </label>
               <div className="relative">

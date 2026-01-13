@@ -5,8 +5,9 @@ import {
   Settings,
   Ticket,
   LogOut,
+  UserCheck,
 } from "lucide-react";
-import orangePlus from "../assets/images - Logo 3.png";
+import image001 from "../assets/image001.jpg";  
 
 const Sidebar = ({ onLogout }: { onLogout: () => void }) => {
   const location = useLocation();
@@ -22,7 +23,8 @@ const Sidebar = ({ onLogout }: { onLogout: () => void }) => {
     // { key: "dashboard", label: "Dashboard", icon: Home },
    
     { key: "tickets", label: "Dashboard", icon: Home },
-    // { key: "review", label: "Review Ticket", icon: Ticket },
+    // { key: "my-tickets", label: "My Tickets", icon: UserCheck },
+    { key: "review", label: "Review Ticket", icon: Ticket },
      { key: "equipments", label: "Equipment", icon: Package },
     { key: "settings", label: "Settings", icon: Settings },
   ];
@@ -35,12 +37,12 @@ const Sidebar = ({ onLogout }: { onLogout: () => void }) => {
     <div className="bg-slate-900 fixed left-0 top-0 text-white w-[300px] h-screen p-6 flex flex-col">
       <div className="flex items-center gap-3 mb-10">
         <div className="bg-white p-2 rounded-lg">
-          <img src={orangePlus} className="w-8 h-8" />
+          <img src={image001} className="size-full" />
         </div>
-        <div>
+        {/* <div>
           <h1 className="text-lg font-bold">Neotia Hospital</h1>
           <p className="text-sm text-slate-400">Inventory System</p>
-        </div>
+        </div> */}
       </div>
 
       <nav className="space-y-2 flex-1">

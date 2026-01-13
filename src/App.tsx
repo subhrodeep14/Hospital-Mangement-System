@@ -23,6 +23,8 @@ import SelectUnitPage from "./components/SelectUnitPage";
 import Register from "./components/Register";
 import EquipmentPage from "./components/EquipmentPage";
 import Reviewticket from "./components/Reviewticket";
+import ReviewList from "./components/Reviewlist";
+import MyTickets from "./components/MyTickets";
 
 
 /* -------------------------------- Protected Route --------------------------- */
@@ -136,9 +138,14 @@ function App() {
       element={<TicketManagement />}
     />
     
-    {/* <Route
-      path="review-tickets"
-      element={<Reviewticket />}
+    <Route
+      path="review"
+      element={<MyTickets />}
+    />
+{/* 
+    <Route
+      path="my-tickets"
+      element={<MyTickets />}
     /> */}
 
     <Route path="settings" element={<Settings />} />

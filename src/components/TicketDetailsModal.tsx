@@ -38,11 +38,13 @@ const [editData, setEditData] = useState<{
   priority: TicketPriority;
   category: string;
   assignedTo: string | null;
+  comments: TicketComment[];
 }>({
   status: ticket.status,
   priority: ticket.priority,
   category: ticket.category,
   assignedTo: ticket.assignedTo ?? null,
+  comments: ticket.comments ?? []
 });
 
   const formatDate = (dateString: string) => {
@@ -88,26 +90,7 @@ const [editData, setEditData] = useState<{
 
   const relatedEquipment = equipments.find(eq => eq.id === ticket.id);
 
-  // const handleAddComment = () => {
-  //   if (!newComment.trim()) return;
-
-  //   const comment: TicketComment = {
-  //     id: Date.now().toString(),
-  //     ticketId: ticket.id,
-  //     author: ticket.createdBy || 'Unknown',
-  //     content: newComment,
-  //     createdAt: new Date().toISOString(),
-  //     isInternal: false
-  //   };
-
-  //   onUpdate({
-  //     ...ticket,
-  //     comments: [...ticket.comments, comment],
-  //     updatedAt: new Date().toISOString()
-  //   });
-
-  //   setNewComment('');
-  // };
+ 
   const comments = ticket.comments ?? [];
 
   const handleAddComment = () => {
@@ -157,6 +140,7 @@ useEffect(() => {
     priority: ticket.priority,
     category: ticket.category,
     assignedTo: ticket.assignedTo ?? null,
+    comments: ticket.comments ?? []
   });
 }, [ticket]);
 
@@ -186,12 +170,7 @@ useEffect(() => {
             <span className="text-sm text-gray-500">#{ticket.id}</span>
           </div>
 
-          {/* <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
-          >
-            <Edit className="w-5 h-5" />
-          </button> */}
+         
 
           <button
             onClick={onClose}

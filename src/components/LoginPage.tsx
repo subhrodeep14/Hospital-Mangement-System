@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { User, Lock, Eye, EyeOff } from 'lucide-react';
-import neotiaLogo from '../assets/neotia-logo.png';
+import Combo from '../assets/Combo.jpg';
 import { axiosClient } from '../api/axiosClient';
 import { useNavigate } from "react-router-dom";
 interface LoginPageProps {
@@ -68,20 +68,23 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-white to-blue-100 flex items-center justify-center p-4">
-      <div className="max-w-md w-full">
+    <div className="min-h-screen w-full bg-gradient-to-br from-blue-100 via-white to-blue-300 flex items-center justify-center p-4">
+      <div className="max-w-md w-full flex justify-center flex-col space-y-2">
 
         {/* Hospital Branding */}
-        <div className="text-center mb-8">
-          <img src={neotiaLogo} alt="Neotia Getwel" className="mx-auto mb-4 w-32 h-auto" />
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Neotia Getwel Multispecialty Hospital</h1>
-          <p className="text-gray-600">Inventory Management System</p>
+        <div className="text-center ">
+          <div className='w-auto h-16 mx-auto '>
+            <img src={Combo} alt="Neotia Getwel" className="size-full" />
+          </div>
+          
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">AMBUJA NEOTIA HEALTHCARE VENTURE LIMITED</h1>
+          <p className="text-gray-600">Service Management System</p>
         </div>
 
         {/* Login Form */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Login</h2>
+          <h2 className="text-2xl text-center font-bold text-gray-900 mb-4">Login</h2>
 
           {errors.general && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
